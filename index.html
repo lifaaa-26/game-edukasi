@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kuis Sejarah Indonesia</title>
   <style>
-    /* 🌸 Gaya Umum */
     body {
       font-family: 'Poppins', Arial, sans-serif;
       background: linear-gradient(135deg, #ffd6e8, #d6e9ff);
@@ -16,8 +15,6 @@
       height: 100vh;
       margin: 0;
     }
-
-    /* 🌼 Kontainer utama */
     .container {
       background: rgba(255, 255, 255, 0.9);
       padding: 25px 30px;
@@ -28,8 +25,6 @@
       text-align: center;
       backdrop-filter: blur(5px);
     }
-
-    /* Tombol */
     button {
       margin-top: 12px;
       padding: 10px 18px;
@@ -46,8 +41,6 @@
       transform: scale(1.05);
       background: linear-gradient(135deg, #ff99c8, #99c9ff);
     }
-
-    /* Pilihan jawaban */
     .option {
       display: block;
       background: #f0f4ff;
@@ -61,15 +54,11 @@
       background: #dbe7ff;
       transform: scale(1.03);
     }
-
-    /* Timer */
     #timer {
       font-weight: bold;
       color: #ff4d6d;
       margin-bottom: 10px;
     }
-
-    /* Daftar pemain */
     #highScoreList {
       margin-top: 15px;
       text-align: left;
@@ -80,15 +69,8 @@
       max-height: 150px;
       overflow-y: auto;
     }
-
-    h2 {
-      color: #2b2b2b;
-    }
-
-    h3 {
-      color: #444;
-    }
-
+    h2 { color: #2b2b2b; }
+    h3 { color: #444; }
     input {
       padding: 8px;
       width: 80%;
@@ -97,9 +79,7 @@
       outline: none;
       text-align: center;
     }
-    input:focus {
-      border-color: #7dbaff;
-    }
+    input:focus { border-color: #7dbaff; }
   </style>
 </head>
 <body>
@@ -135,8 +115,21 @@
       { question: "7. Sumpah Pemuda diikrarkan tahun?", options: ["1926", "1927", "1928", "1930"], answer: "1928" },
       { question: "8. Siapa yang menulis naskah teks proklamasi?", options: ["Soekarno", "Hatta", "Sudirman", "Sayuti Melik"], answer: "Soekarno" },
       { question: "9. Apa tujuan Kongres Pemuda II?", options: ["Mendirikan partai politik", "Memperjuangkan kemerdekaan", "Menegaskan persatuan Indonesia", "Membentuk organisasi baru"], answer: "Menegaskan persatuan Indonesia" },
-      { question: "10. Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" }
+      { question: "10. Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" },
+      { question: "11. Apa nama kerajaan Hindu pertama di Indonesia?", options: ["Kutai", "Sriwijaya", "Majapahit", "Tarumanegara"], answer: "Kutai" },
+      { question: "12. Siapa pendiri Kerajaan Majapahit?", options: ["Raden Wijaya", "Gajah Mada", "Hayam Wuruk", "Kertanegara"], answer: "Raden Wijaya" },
+      { question: "13. Apa isi utama dari Sumpah Palapa?", options: ["Janji Gajah Mada mempersatukan Nusantara", "Perintah menyerang Majapahit", "Deklarasi kemerdekaan", "Perjanjian damai dengan Sriwijaya"], answer: "Janji Gajah Mada mempersatukan Nusantara" },
+      { question: "14. Siapa tokoh pahlawan dari Aceh yang terkenal dengan julukan 'Singa Betina dari Aceh'?", options: ["Cut Nyak Dien", "Martha Christina Tiahahu", "R.A. Kartini", "Dewi Sartika"], answer: "Cut Nyak Dien" },
+      { question: "15. Kapan peristiwa Rengasdengklok terjadi?", options: ["16 Agustus 1945", "17 Agustus 1945", "15 Agustus 1945", "18 Agustus 1945"], answer: "16 Agustus 1945" },
+      { question: "16. Apa isi dari Piagam Jakarta?", options: ["Dasar negara Indonesia", "Teks Proklamasi", "Perjanjian Linggarjati", "Sumpah Pemuda"], answer: "Dasar negara Indonesia" },
+      { question: "17. Siapa tokoh yang dikenal sebagai Bapak Pendidikan Nasional?", options: ["Ki Hajar Dewantara", "Soekarno", "Moh. Hatta", "Tan Malaka"], answer: "Ki Hajar Dewantara" },
+      { question: "18. Kapan peristiwa G30S/PKI terjadi?", options: ["1965", "1960", "1955", "1970"], answer: "1965" },
+      { question: "19. Apa nama badan yang mempersiapkan kemerdekaan Indonesia?", options: ["BPUPKI", "PPKI", "KNIP", "BKR"], answer: "BPUPKI" },
+      { question: "20. Siapa presiden kedua Republik Indonesia?", options: ["Soeharto", "Soekarno", "BJ Habibie", "Abdurrahman Wahid"], answer: "Soeharto" }
     ];
+
+    // 🔀 Acak urutan soal setiap permainan dimulai
+    questions.sort(() => Math.random() - 0.5);
 
     let currentQuestion = 0;
     let score = 0;
@@ -246,3 +239,4 @@
   </script>
 </body>
 </html>
+
