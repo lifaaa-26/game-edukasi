@@ -91,28 +91,6 @@
       transform: scale(1.05);
     }
 
-    .meme-box {
-      margin-bottom: 15px;
-      height: 120px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .meme-box img {
-      width: 120px;
-      height: 120px;
-      border-radius: 10px;
-      object-fit: cover;
-      animation: bounceIn 0.8s ease;
-    }
-
-    @keyframes bounceIn {
-      0% { transform: scale(0.3); opacity: 0; }
-      60% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); }
-    }
-
     .notification {
       position: fixed;
       top: 50%;
@@ -152,7 +130,6 @@
 
   <div class="container" id="quizScreen" style="display:none;">
     <div id="timer">⏳ Waktu: 15 detik</div>
-    <div class="meme-box" id="memeBox"></div>
     <h3 id="questionText"></h3>
     <div id="options"></div>
   </div>
@@ -160,19 +137,13 @@
   <div class="container" id="resultScreen" style="display:none;">
     <h2>🎉 Hasil Kuis 🎉</h2>
     <p id="resultText"></p>
+    <button onclick="showScore()">📊 Lihat Nilai</button>
     <button onclick="location.reload()">🔄 Main Lagi</button>
   </div>
 
   <script>
-    const memes = [
-      "https://i.imgur.com/w3duR07.png", // happy
-      "https://i.imgur.com/NM4p1kP.png", // pusing
-      "https://i.imgur.com/xKEn8fF.png", // sedih
-      "https://i.imgur.com/KpJf7sx.png", // semangat
-      "https://i.imgur.com/Izl2b6e.png"  // ngakak
-    ];
-
-    const questions = [
+    // 🔹 100 Soal (bisa ditambah sesuai kebutuhan)
+    const allQuestions = [
       { question: "Kapan Indonesia merdeka?", options: ["17 Agustus 1945", "20 Mei 1908", "10 November 1945", "1 Juni 1945"], answer: "17 Agustus 1945" },
       { question: "Siapa yang membacakan teks proklamasi?", options: ["Soekarno", "Moh. Hatta", "Soeharto", "Sudirman"], answer: "Soekarno" },
       { question: "Dimana teks proklamasi dibacakan?", options: ["Istana Negara", "Pegangsaan Timur 56", "Lapangan Banteng", "Gedung Pancasila"], answer: "Pegangsaan Timur 56" },
@@ -180,10 +151,12 @@
       { question: "Organisasi Budi Utomo berdiri tahun berapa?", options: ["1905", "1908", "1912", "1928"], answer: "1908" },
       { question: "Sumpah Pemuda diikrarkan tahun?", options: ["1926", "1927", "1928", "1930"], answer: "1928" },
       { question: "Siapa pendiri Muhammadiyah?", options: ["KH Ahmad Dahlan", "Ki Hajar Dewantara", "HOS Tjokroaminoto", "Soekarno"], answer: "KH Ahmad Dahlan" },
-      { question: "Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" }
+      { question: "Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" },
+      // 🧩 (Tambahkan hingga 100 soal, bisa variasi sejarah Indonesia, tokoh, peristiwa, dll.)
     ];
 
-    questions.sort(() => Math.random() - 0.5);
+    // Pilih 20 soal acak
+    const questions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 20);
     let currentQuestion = 0, score = 0, player = "", timeLeft = 15, timer;
 
     function showNotification(type, text) {
@@ -237,11 +210,6 @@
       });
     }
 
-    function updateMeme() {
-      const memeDiv = document.getElementById("memeBox");
-      memeDiv.innerHTML = `<img src="${memes[Math.floor(Math.random() * memes.length)]}" alt="meme">`;
-    }
-
     function checkAnswer(selected) {
       clearInterval(timer);
       if (selected === questions[currentQuestion].answer) {
@@ -250,8 +218,6 @@
       } else {
         showNotification("wrong", "❌ Salah!");
       }
-      // 🔹 Meme ganti setelah menjawab soal
-      updateMeme();
       setTimeout(nextQuestion, 1000);
     }
 
@@ -270,8 +236,14 @@
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("resultScreen").style.display = "block";
       document.getElementById("resultText").textContent =
-        `🎊 ${player}, skor kamu adalah ${score} dari ${questions.length * 5} poin.`;
+        `🎊 ${player}, kamu telah menyelesaikan 20 soal dengan skor ${score} dari ${questions.length * 5} poin.`;
+    }
+
+    function showScore() {
+      const nilai = (score / (questions.length * 5)) * 100;
+      alert(`Nilai kamu: ${nilai.toFixed(0)}`);
     }
   </script>
 </body>
 </html>
+
