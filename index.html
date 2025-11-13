@@ -181,11 +181,6 @@
       }
       player = nameInput;
 
-      const players = JSON.parse(localStorage.getItem("players")) || [];
-      players.push({ name: player, score: 0 });
-      localStorage.setItem("players", JSON.stringify(players));
-      showPlayerList();
-
       document.getElementById("startScreen").style.display = "none";
       document.getElementById("quizScreen").style.display = "block";
       showQuestion();
