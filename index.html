@@ -80,6 +80,18 @@
       text-align: center;
     }
     input:focus { border-color: #7dbaff; }
+
+    /* Tombol Reset khusus */
+    #resetBtn {
+      background: #ff6b6b;
+      margin-top: 10px;
+      padding: 8px 14px;
+      font-weight: 600;
+    }
+    #resetBtn:hover {
+      background: #ff4a4a;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -88,7 +100,10 @@
     <p>Masukkan nama kamu untuk memulai:</p>
     <input type="text" id="playerName" placeholder="Nama kamu" />
     <button onclick="startQuiz()">Mulai Kuis</button>
+
     <div id="highScoreList"></div>
+    <!-- Tombol reset daftar pemain -->
+    <button id="resetBtn" onclick="resetPlayers()">Reset Daftar Pemain</button>
   </div>
 
   <div class="container" id="quizScreen" style="display:none;">
@@ -128,6 +143,7 @@
       { question: "Siapa presiden kedua Republik Indonesia?", options: ["Soeharto", "Soekarno", "BJ Habibie", "Abdurrahman Wahid"], answer: "Soeharto" }
     ];
 
+    // 🔀 Acak urutan soal
     questions.sort(() => Math.random() - 0.5);
 
     let currentQuestion = 0;
@@ -139,16 +155,10 @@
     function showPlayerList() {
       const listDiv = document.getElementById("highScoreList");
       const players = JSON.parse(localStorage.getItem("players")) || [];
-
-      console.log("Daftar pemain saat ini:", players);
-
       if (players.length === 0) {
-        listDiv.style.display = "none";
-        listDiv.innerHTML = ""; // Pastikan kosong
+        listDiv.innerHTML = "<h4>📜 Belum ada pemain</h4>";
         return;
       }
-
-      listDiv.style.display = "block";
       let html = "<h4>📜 Daftar Pemain</h4><ul>";
       players.slice(-5).reverse().forEach(p => {
         html += `<li>${p.name} - ${p.score} poin</li>`;
@@ -158,6 +168,11 @@
     }
     showPlayerList();
 
+    function resetPlayers() {
+      localStorage.removeItem('players');
+      showPlayerList();
+    }
+
     function startQuiz() {
       const nameInput = document.getElementById("playerName").value.trim();
       if (nameInput === "") {
@@ -166,7 +181,6 @@
       }
       player = nameInput;
 
-      // Tambahkan pemain baru ke localStorage
       const players = JSON.parse(localStorage.getItem("players")) || [];
       players.push({ name: player, score: 0 });
       localStorage.setItem("players", JSON.stringify(players));
@@ -200,6 +214,7 @@
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
 
+      // 🔀 Acak urutan opsi jawaban
       const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
 
       shuffledOptions.forEach(option => {
@@ -214,7 +229,7 @@
     function checkAnswer(selected) {
       clearInterval(timer);
       if (selected === questions[currentQuestion].answer) {
-        score += 5;
+        score += 5; // 🎯 Tiap soal = 5 poin (20 soal = 100 poin total)
         alert("Benar 🎉");
       } else {
         alert("Salah 😅");
@@ -248,14 +263,10 @@
           `Skor tertinggi saat ini: ${highScore.name} - ${highScore.score} poin.`;
       }
 
-      // Hapus pemain dari daftar pemain di localStorage
-      let players = JSON.parse(localStorage.getItem("players")) || [];
-      console.log("Sebelum hapus pemain:", players);
-      players = players.filter(p => p.name !== player);
-      console.log("Sesudah hapus pemain:", players);
-      localStorage.setItem("players", JSON.stringify(players));
-
-      // Segera perbarui tampilan daftar pemain
+      // 🔥 Hapus nama pemain dari daftar setelah selesai
+      const players = JSON.parse(localStorage.getItem("players")) || [];
+      const updated = players.filter(p => p.name !== player);
+      localStorage.setItem("players", JSON.stringify(updated));
       showPlayerList();
     }
   </script>
