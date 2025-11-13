@@ -3,233 +3,482 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Kuis Sejarah Indonesia - Tema Gelap</title>
+  <title>Kuis Sejarah Indonesia - Tema Gelap Neon</title>
   <style>
-    :root {
-      --bg: #000; /* background utama hitam pekat */
-      --card: #111; /* kartu abu gelap */
-      --muted: #aaa;
-      --accent: #4da6ff;
-      --accent2: #ff80b5;
-      --border: #333; /* garis abu matang */
-      --success: #2ecc71;
-      --danger: #ff6b6b;
-      --warning: #f1c40f;
+    /* Palette & variables */
+    :root{
+      --bg-1: #040405; /* nearly black */
+      --bg-2: #00142e; /* deep blue */
+      --bg-3: #2b003f; /* deep purple */
+      --card:#0f0f13;
+      --muted:#9aa0a6;
+      --neon-blue: #00d4ff;
+      --neon-magenta: #c400ff;
+      --border:#222228;
+      --success:#2ecc71;
+      --danger:#ff6b6b;
+      --warning:#f1c40f;
+      --glass: rgba(255,255,255,0.02);
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Poppins", Inter, system-ui;
-      background: var(--bg);
-      color: #eee;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter, "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      /* background gradient black -> neon-blue -> purple */
+      background: radial-gradient(1000px 600px at 10% 10%, rgba(0,212,255,0.06), transparent),
+                  linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      color:#e6eef6;
     }
 
     .app {
-      width: 100%;
-      max-width: 680px;
+      width:100%;
+      max-width:760px;
     }
 
-    .card {
-      background: linear-gradient(180deg, #111, #0d0d0d);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.8);
+    /* neon frame container */
+    .neon-wrap{
+      position:relative;
+      padding:10px; /* neon padding */
+      border-radius:18px;
+    }
+    .neon-wrap::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:18px;
+      padding:2px;
+      background: linear-gradient(90deg, rgba(0,212,255,0.14), rgba(196,0,255,0.12));
+      -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+      mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+      pointer-events:none;
+      filter: blur(8px);
+      z-index:0;
     }
 
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
+    .card{
+      position:relative;
+      background:linear-gradient(180deg,var(--card), rgba(16,16,20,0.95));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px;
+      padding:22px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 40px rgba(0,212,255,0.03);
+      backdrop-filter: blur(6px);
+      z-index:1;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 22px;
-      color: #fff;
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
     }
 
-    .meta {
-      color: var(--muted);
-      font-size: 13px;
+    h1{
+      margin:0;
+      font-size:22px;
+      letter-spacing:0.2px;
+      color:var(--neon-blue);
+      text-shadow: 0 6px 28px rgba(0,212,255,0.06), 0 0 6px rgba(196,0,255,0.03);
     }
 
-    input[name="player"] {
-      width: 70%;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: #eee;
-      outline: none;
-      font-size: 15px;
-      margin-top: 10px;
+    .meta{
+      color:var(--muted);
+      font-size:13px;
     }
 
-    .btn {
-      display: inline-block;
-      padding: 10px 16px;
-      border-radius: 10px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      color: #000;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      margin-top: 12px;
-      transition: all .2s;
+    .start-center{
+      text-align:center;
     }
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    input[name="player"]{
+      width:70%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.04);
+      background:transparent;
+      color: #e6eef6;
+      outline:none;
+      font-size:15px;
+      margin-top:12px;
     }
 
-    .btn.ghost {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
+    /* Start button - MAGENTA */
+    .btn{
+      display:inline-block;
+      padding:10px 18px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(90deg, var(--neon-magenta), #ff6fb8);
+      color:#fff;
+      font-weight:800;
+      cursor:pointer;
+      margin-top:12px;
+      box-shadow: 0 8px 30px rgba(196,0,255,0.08), 0 0 8px rgba(0,212,255,0.02) inset;
+    }
+    .btn:hover{ transform:translateY(-3px); }
+
+    .btn.ghost{
+      background:transparent;
+      color:var(--muted);
+      border:1px solid var(--border);
     }
 
-    #quizScreen, #resultScreen { display: none; }
-
-    .top-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 10px;
+    /* Quiz area */
+    #quizScreen { display:none; margin-top:6px; }
+    .top-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom:12px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      margin-bottom:14px;
     }
-
-    .timer {
-      color: var(--warning);
-      font-weight: 700;
+    .timer{
+      color:var(--neon-magenta);
+      font-weight:800;
+      font-size:15px;
+      text-shadow: 0 6px 20px rgba(196,0,255,0.06);
     }
-
-    .progress {
-      color: var(--muted);
-      font-size: 13px;
+    .progress{
+      color:var(--muted);
+      font-size:13px;
     }
 
     .question {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 12px 0;
-      color: #fff;
+      font-size:18px;
+      font-weight:800;
+      margin:12px 0;
+      color:#ffffff;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.6);
     }
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .options{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:6px;
     }
 
-    .opt {
-      background: #111;
-      border: 1px solid var(--border);
-      padding: 12px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      color: #eee;
-      font-weight: 600;
-      transition: all 0.2s;
+    .opt{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      padding:14px 16px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:transform .12s ease, box-shadow .12s;
+      color:#e8eef6;
+      font-weight:700;
+      position:relative;
+      overflow:hidden;
     }
+    .opt:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.6); }
 
-    .opt:hover {
-      transform: translateY(-3px);
-      background: #1a1a1a;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    /* neon glow on hover for options (blue-magenta) */
+    .opt:after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, rgba(0,212,255,0.02), rgba(196,0,255,0.02));
+      opacity:0;
+      transition:opacity .18s ease;
     }
+    .opt:hover:after{ opacity:1; }
 
+    /* Result area */
+    #resultScreen{ display:none; text-align:center; margin-top:12px;}
+    .result-score{ font-size:20px; font-weight:900; margin:8px 0; color:var(--neon-blue); text-shadow: 0 8px 30px rgba(0,212,255,0.06); }
+
+    /* Notification center (middle) */
     .notif {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      padding: 20px 30px;
-      border-radius: 12px;
-      font-size: 20px;
-      font-weight: 700;
-      color: #fff;
-      opacity: 0;
-      transition: opacity .3s;
-      z-index: 999;
+      position:fixed;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%) scale(.95);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:18px 28px;
+      border-radius:12px;
+      font-weight:800;
+      font-size:20px;
+      z-index:999;
+      color:#f0f8ff;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+      opacity:0;
+      pointer-events:none;
+    }
+    .notif.show{ animation:pop .95s ease forwards; pointer-events:auto; }
+    @keyframes pop {
+      0%{ opacity:0; transform:translate(-50%,-50%) scale(.8); }
+      40%{ opacity:1; transform:translate(-50%,-50%) scale(1.06); }
+      75%{ opacity:1; transform:translate(-50%,-58%) scale(1); }
+      100%{ opacity:0; transform:translate(-50%,-66%) scale(.92); }
     }
 
-    .notif.show {
-      opacity: 1;
-      animation: fadeOut 1.5s ease forwards;
-    }
+    .notif.correct{ background: linear-gradient(90deg, rgba(0,212,255,0.06), rgba(196,0,255,0.04)); color:var(--neon-blue); border:1px solid rgba(0,212,255,0.12); }
+    .notif.wrong{ background: linear-gradient(90deg, rgba(255,60,60,0.06), rgba(255,60,60,0.02)); color:var(--danger); border:1px solid rgba(255,60,60,0.12); }
+    .notif.timeout{ background: linear-gradient(90deg, rgba(241,196,15,0.06), rgba(241,196,15,0.02)); color:var(--warning); border:1px solid rgba(241,196,15,0.12); }
 
-    @keyframes fadeOut {
-      0% { opacity: 1; transform: translate(-50%,-50%) scale(1.1); }
-      100% { opacity: 0; transform: translate(-50%,-50%) scale(0.9); }
-    }
-
+    .small{ font-size:13px; color:var(--muted); }
     .footer {
-      margin-top: 15px;
-      border-top: 1px dashed var(--border);
-      padding-top: 10px;
-      color: var(--muted);
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
+      margin-top:12px;
+      border-top:1px dashed rgba(255,255,255,0.03);
+      padding-top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    @media (max-width:720px){
+      .card{ padding:16px; border-radius:12px }
+      input[name="player"]{ width:100% }
+      .top-row{ flex-direction:column; align-items:flex-start; gap:8px }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="card">
-      <div class="header">
-        <div>
-          <h1>Kuis Sejarah Indonesia</h1>
-          <div class="meta">Tema: Sejarah — 20 soal acak dari 100</div>
+    <div class="neon-wrap">
+      <div class="card">
+        <div class="header">
+          <div>
+            <h1>Kuis Sejarah Indonesia</h1>
+            <div class="meta small">Tema: Sejarah — 20 soal acak dari 100</div>
+          </div>
+          <div class="meta small">oleh: Kamu</div>
         </div>
-        <div class="meta">oleh: Kamu</div>
-      </div>
 
-      <div id="startScreen" class="start-center">
-        <p class="meta">Masukkan nama kamu:</p>
-        <input id="playerName" name="player" placeholder="Nama kamu..." />
-        <div><button class="btn" onclick="startQuiz()">🚀 Mulai Kuis</button></div>
-      </div>
-
-      <div id="quizScreen">
-        <div class="top-row">
-          <div class="timer" id="timer">⏳ Waktu: 15s</div>
-          <div class="progress" id="progress">Soal 1 / 20</div>
+        <!-- START SCREEN -->
+        <div id="startScreen" class="start-center">
+          <p class="small">Masukkan nama untuk memulai kuis:</p>
+          <input name="player" id="playerName" placeholder="Nama kamu..." autocomplete="off" />
+          <div>
+            <button class="btn" id="startBtn" onclick="startQuiz()">🚀 Mulai Kuis</button>
+          </div>
         </div>
-        <div id="questionCard">
-          <div class="question" id="questionText">Pertanyaan muncul di sini</div>
-          <div class="options" id="options"></div>
-        </div>
-      </div>
 
-      <div id="resultScreen">
-        <div class="result-score" id="resultText">Skor kamu: 0</div>
-        <div style="margin-top:10px;">
-          <button class="btn ghost" onclick="location.reload()">🔄 Main Lagi</button>
-        </div>
-      </div>
+        <!-- QUIZ SCREEN -->
+        <div id="quizScreen">
+          <div class="top-row">
+            <div class="timer" id="timer">⏳ Waktu: 15s</div>
+            <div class="progress" id="progress">Soal 1 / 20</div>
+          </div>
 
-      <div class="footer">
-        <div>Durasi: 15 detik/soal</div>
-        <div>Soal acak tiap main</div>
+          <div id="questionCard">
+            <div class="question" id="questionText">Pertanyaan muncul di sini</div>
+            <div class="options" id="options"></div>
+          </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="resultScreen">
+          <div class="result-score" id="resultText">Skor kamu</div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn" onclick="showScore()">📊 Lihat Nilai</button>
+            <button class="btn ghost" onclick="location.reload()">🔄 Main Lagi</button>
+          </div>
+          <p id="scoreDetail" class="small" style="margin-top:12px; display:none"></p>
+        </div>
+
+        <div class="footer">
+          <div>Durasi tiap soal: 15 detik</div>
+          <div>Soal acak tiap permainan</div>
+        </div>
       </div>
     </div>
   </div>
 
   <div id="notif" class="notif"></div>
+
+  <script>
+    // ======= Semua 100 soal (Sejarah Indonesia) =======
+    const allQuestions = [
+      { q:"Kapan Indonesia memproklamasikan kemerdekaan?", opts:["17 Agustus 1945","1 Juni 1945","10 November 1945","20 Mei 1908"], a:"17 Agustus 1945" },
+      { q:"Siapa yang membacakan teks Proklamasi?", opts:["Soekarno","Mohammad Hatta","Sayuti Melik","Sudirman"], a:"Soekarno" },
+      { q:"Di jalan mana teks Proklamasi dibacakan?", opts:["Pegangsaan Timur 56","Istana Negara","Lapangan Banteng","Gereja Katedral"], a:"Pegangsaan Timur 56" },
+      { q:"Siapa yang mengetik naskah Proklamasi?", opts:["Sayuti Melik","Abdul Haris Nasution","Sutan Sjahrir","Suharto"], a:"Sayuti Melik" },
+      { q:"Organisasi Budi Utomo didirikan tahun berapa?", opts:["1908","1905","1912","1928"], a:"1908" },
+      { q:"Kapan Sumpah Pemuda diikrarkan?", opts:["1928","1926","1927","1930"], a:"1928" },
+      { q:"Siapa pendiri Muhammadiyah?", opts:["KH Ahmad Dahlan","Ki Hajar Dewantara","HOS Tjokroaminoto","Sudirman"], a:"KH Ahmad Dahlan" },
+      { q:"Tokoh yang dikenal sebagai Bapak Pendidikan Nasional adalah?", opts:["Ki Hajar Dewantara","Soekarno","Moh. Hatta","Tan Malaka"], a:"Ki Hajar Dewantara" },
+      { q:"Piagam Jakarta berkaitan dengan?", opts:["Dasar negara (Pancasila)","Teks Proklamasi","Sumpah Pemuda","Perjanjian Giyanti"], a:"Dasar negara (Pancasila)" },
+      { q:"BPUPKI dibentuk pada tanggal berapa?", opts:["29 Mei 1945","1 Juni 1945","29 April 1945","10 Juli 1945"], a:"29 April 1945" },
+      { q:"Siapa proklamator kemerdekaan selain Soekarno?", opts:["Mohammad Hatta","Sutan Sjahrir","Tan Malaka","Sudirman"], a:"Mohammad Hatta" },
+      { q:"Konferensi Asia-Afrika pertama diselenggarakan di kota?", opts:["Bandung","Jakarta","Surabaya","Yogyakarta"], a:"Bandung" },
+      { q:"Tokoh perenyah sumpah palapa adalah?", opts:["Gajah Mada","Raden Wijaya","Hayam Wuruk","Kertanegara"], a:"Gajah Mada" },
+      { q:"Kerajaan Majapahit didirikan oleh?", opts:["Raden Wijaya","Gajah Mada","Hayam Wuruk","Kertanegara"], a:"Raden Wijaya" },
+      { q:"Ibu kota Kerajaan Mataram Kuno berada di?", opts:["Medang","Kedu","Sunda","Kutai"], a:"Medang" },
+      { q:"Perjanjian Linggarjati terjadi antara Indonesia dan?", opts:["Belanda","Portugal","Inggris","Prancis"], a:"Belanda" },
+      { q:"Peristiwa Rengasdengklok terjadi pada tanggal?", opts:["16 Agustus 1945","17 Agustus 1945","15 Agustus 1945","18 Agustus 1945"], a:"16 Agustus 1945" },
+      { q:"Apa nama serangan 10 November 1945 di Surabaya?", opts:["Pertempuran Surabaya","Agresi Militer Belanda","Serangan Umum 1 Maret","Peristiwa Bandung Lautan Api"], a:"Pertempuran Surabaya" },
+      { q:"Siapa panglima yang terkenal dalam perang Diponegoro?", opts:["Pangeran Diponegoro","Gajah Mada","Raden Wijaya","Sultan Agung"], a:"Pangeran Diponegoro" },
+      { q:"Sukarno proklamator memegang jabatan presiden keberapa?", opts:["Pertama","Kedua","Ketiga","Keempat"], a:"Pertama" },
+      { q:"Apa nama badan yang menggantikan BPUPKI?", opts:["PPKI","KNIP","BKR","Badan Keamanan Rakyat"], a:"PPKI" },
+      { q:"Tokoh pemimpin gerakan pemuda yang memproklamasikan Sumpah Pemuda?", opts:["Wahyu Suta","Aktifitas kolektif","Pemuda Indonesia (umum)","Bung Tomo"], a:"Pemuda Indonesia (umum)" },
+      { q:"Nama perjanjian yang mengakui kedaulatan Indonesia pada 1949?", opts:["Konferensi Meja Bundar (KMB)","Perjanjian Linggarjati","Agresi Militer II","Perjanjian Renville"], a:"Konferensi Meja Bundar (KMB)" },
+      { q:"Kapan Konferensi Meja Bundar (KMB) berlangsung?", opts:["1949","1948","1947","1946"], a:"1949" },
+      { q:"Apa itu G30S/PKI terjadi tahun?", opts:["1965","1955","1960","1970"], a:"1965" },
+      { q:"Siapa panglima perang pada zaman kolonial VOC di Jawa?", opts:["Untung Surapati","Sunan Kalijaga","Diponegoro","Sultan Agung"], a:"Untung Surapati" },
+      { q:"Peristiwa 'Bandung Lautan Api' terjadi pada tahun?", opts:["1946","1945","1947","1950"], a:"1946" },
+      { q:"Kapan Proklamasi Kemerdekaan Indonesia dibacakan (tanggal lengkap)?", opts:["17 Agustus 1945","16 Agustus 1945","18 Agustus 1945","15 Agustus 1945"], a:"17 Agustus 1945" },
+      { q:"Siapa yang terkenal dengan Julukan 'Singa Betina dari Aceh'?", opts:["Cut Nyak Dien","Cut Mutia","Cut Nyak Meutia","Cut Nyi Roro Kidul"], a:"Cut Nyak Dien" },
+      { q:"Organisasi Sarekat Islam muncul pada awal abad ke?", opts:["20 (1900an)","19","18","21"], a:"20 (1900an)" },
+      { q:"Tokoh HOS Tjokroaminoto terkenal sebagai guru bagi?", opts:["Sukarno & Sjahrir","Ki Hajar Dewantara","Sutan Sjahrir","Sudirman"], a:"Sukarno & Sjahrir" },
+      { q:"Kerajaan Sriwijaya berbasis di pulau?", opts:["Sumatra","Jawa","Kalimantan","Sulawesi"], a:"Sumatra" },
+      { q:"Ibukota kerajaan Sriwijaya berada di?", opts:["Palembang","Jakarta","Surabaya","Medan"], a:"Palembang" },
+      { q:"Peristiwa 'Perjanjian Giyanti' membagi kerajaan Mataram menjadi?", opts:["Dua bagian (Yogyakarta & Surakarta)","Tiga bagian","Satu kerajaan","Empat bagian"], a:"Dua bagian (Yogyakarta & Surakarta)" },
+      { q:"Siapa sastrawan/politikus yang menulis 'Indonesia Menggugat'?", opts:["Sutan Takdir Alisjahbana","W.S. Rendra","Soekarno","Ernest Douwes Dekker"], a:"Ernest Douwes Dekker" },
+      { q:"Gerakan pemuda yang lahir 1908 selain Budi Utomo adalah?", opts:["Sarekat Dagang Islam (SDI) & Sarekat Islam","Indische Partij","Partai Komunis Indonesia","Muhammadiyah"], a:"Sarekat Islam" },
+      { q:"Ketika Jepang menyerah pada PD II, siapa tokoh yang mengajak Soekarno-Hatta untuk memproklamasikan kemerdekaan?", opts:["Sutan Syahrir","Radjiman Wedyodiningrat","Soekanto","Sutan Sjahrir"], a:"Radjiman Wedyodiningrat" },
+      { q:"R.A. Kartini dikenal memperjuangkan?", opts:["Emansipasi wanita","Pergerakan kemerdekaan","Pertanian modern","Pendidikan militer"], a:"Emansipasi wanita" },
+      { q:"Apa nama lembaga yang menyusun UUD 1945 pada awal kemerdekaan?", opts:["PPKI","BPUPKI","KNIP","BKR"], a:"PPKI" },
+      { q:"Perbedaan utama UUD 1945 dan UUDS 1950 adalah?", opts:["Bentuk negara tetap sama, tata cara berbeda (UUDS parlementer)","Satu dibuat oleh Belanda","UUDS 1950 proklamasi","Tidak ada perbedaan"], a:"Bentuk negara tetap sama, tata cara berbeda (UUDS parlementer)" },
+      { q:"Siapa tokoh yang memproklamasikan 'Trikora' atau terlibat penyerbuan Irian Barat?", opts:["Soekarno","Sukarno","Soeharto","Mohammad Hatta"], a:"Soekarno" },
+      { q:"Kapan Peristiwa 'Pertempuran 10 November' di Surabaya berlangsung?", opts:["10 November 1945","10 November 1946","10 November 1944","10 November 1947"], a:"10 November 1945" },
+      { q:"Apa nama lembaga keamanan rakyat pasca-kemerdekaan awal?", opts:["BKR (Badan Keamanan Rakyat)","TNI","POLRI","KNIP"], a:"BKR (Badan Keamanan Rakyat)" },
+      { q:"Siapa yang dikenal sebagai Bapak Koperasi Indonesia?", opts:["Mohammad Hatta","Soekarno","Sudirman","Ki Hajar Dewantara"], a:"Mohammad Hatta" },
+      { q:"Peristiwa 'Serangan Umum 1 Maret 1949' terjadi di kota?", opts:["Solo (Surakarta)","Yogyakarta","Jakarta","Bandung"], a:"Solo (Surakarta)" },
+      { q:"Apa tujuan Sumpah Palapa (Gajah Mada)?", opts:["Mempersatukan Nusantara","Memisahkan Nusantara","Menyerang Majapahit","Mendirikan kerajaan baru"], a:"Mempersatukan Nusantara" },
+      { q:"Siapa panglima besar yang mengeluarkan 'Palapa' janji?", opts:["Gajah Mada","Raden Wijaya","Hayam Wuruk","Kertanegara"], a:"Gajah Mada" },
+      { q:"Tanggal dan tahun Proklamasi Indonesia ditulis/dirumuskan sehari sebelumnya di?", opts:["Rengasdengklok, 16 Agustus 1945","Jakarta, 16 Agustus 1945","Yogyakarta, 16 Agustus 1945","Bandung, 16 Agustus 1945"], a:"Rengasdengklok, 16 Agustus 1945" },
+      { q:"Peristiwa 'Bandung Lautan Api' dipimpin oleh?", opts:["Pejuang lokal (umum) & Bung Tomo populer di Surabaya","Bung Tomo","Soekarno","Sutan Sjahrir"], a:"Pejuang lokal (umum) & Bung Tomo populer di Surabaya" },
+      { q:"Siapa tokoh yang menjadi presiden kedua RI?", opts:["Soeharto","Soekarno","BJ Habibie","Abdurrahman Wahid"], a:"Soeharto" },
+      { q:"Kapan era Orde Baru dimulai secara resmi?", opts:["1966 (de facto)","1965","1970","1959"], a:"1966 (de facto)" },
+      { q:"Apa nama undang-undang dasar yang diganti pada 1950?", opts:["UUDS 1950 (menggantikan UUD 1945 sementara)","UUDS 1960","UUD 1949","UUD 1955"], a:"UUDS 1950 (menggantikan UUD 1945 sementara)" },
+      { q:"Peristiwa Sumpah Pemuda bertujuan menegaskan?", opts:["Persatuan Indonesia","Pembentukan republik","Pembentukan partai","Pendirian sekolah"], a:"Persatuan Indonesia" },
+      { q:"Apa nama organisasi pelajar yang mendahului Sumpah Pemuda?", opts:["Perhimpunan Pelajar Indonesia (PPI) & organisasi lainnya","Budi Utomo","Muhammadiyah","Sarekat Islam"], a:"Perhimpunan Pelajar Indonesia (PPI) & organisasi lainnya" },
+      { q:"Peristiwa 'Pertempuran Ambarawa' melawan pasukan NICA/Belanda dipimpin oleh?", opts:["Jenderal Sudirman","Sudirman","Soekarno","Ahmad Yani"], a:"Jenderal Sudirman" },
+      { q:"Siapa tokoh PETA yang menonjol pada masa revolusi?", opts:["Sudirman","Soedirman (Sudirman)","Soekarno","Soeharto"], a:"Sudirman" },
+      { q:"Kapan Indonesia menjadi anggota ASEAN (tahun)?", opts:["1967","1955","1976","1965"], a:"1967" },
+      { q:"Negara pendiri ASEAN selain Indonesia adalah?", opts:["Malaysia, Filipina, Singapura, Thailand","Australia","Vietnam dan Kamboja","Jepang"], a:"Malaysia, Filipina, Singapura, Thailand" },
+      { q:"Siapa yang memimpin pemberontakan PKI Madiun 1948?", opts:["Musso","Musso","Tan Malaka (terkait)","Sukarno"], a:"Musso" },
+      { q:"Nama perjanjian yang mengakhiri agresi militer Belanda I/II?", opts:["Perjanjian Renville & KMB (bergantung konteks)","Perjanjian Linggarjati","Perjanjian Giyanti","Perjanjian Baku"], a:"Perjanjian Renville & KMB (bergantung konteks)" },
+      { q:"Siapa tokoh yang dikenal sebagai 'Bapak Proklamasi' (dua orang)?", opts:["Soekarno dan Hatta","Soekarno saja","Hatta saja","Sudirman & Soedirman"], a:"Soekarno dan Hatta" },
+      { q:"Peristiwa 'Kudeta Militer 1966' menghasilkan kekuasaan siapa?", opts:["Soeharto (orde baru)","Soekarno","Hatta","Sudirman"], a:"Soeharto (orde baru)" },
+      { q:"Apa nama tokoh pahlawan wanita Aceh yang terkenal?", opts:["Cut Nyak Dien","Cut Nyak Meutia","R.A. Kartini","Dewi Sartika"], a:"Cut Nyak Dien" },
+      { q:"Siapa yang menulis naskah proklamasi asli bersama Soekarno-Hatta?", opts:["Sayuti Melik membantu mengetik","Sayuti Melik","Sutan Sjahrir","Achmad Soebardjo"], a:"Sayuti Melik" },
+      { q:"Sumpah Palapa berkaitan dengan sumpah siapa?", opts:["Gajah Mada","Gajah Mada","Raden Wijaya","Hayam Wuruk"], a:"Gajah Mada" },
+      { q:"Apa nama pusat pemerintahan kerajaan Kutai (kerajaan Hindu tertua di Indonesia)?", opts:["Kutai Kartanegara (Kertarajasa?)","Kutai","Tarumanegara","Majapahit"], a:"Kutai" },
+      { q:"Peristiwa 'Proklamasi' ditandatangani/dibacakan pada hari apa (hari dalam minggu)?", opts:["Jumat (17 Agustus 1945 jatuh pada hari Jumat)","Kamis","Sabtu","Minggu"], a:"Jumat (17 Agustus 1945 jatuh pada hari Jumat)" },
+      { q:"Nama pahlawan nasional yang memimpin perlawanan di Sulawesi Utara?", opts:["Martha Christina Tiahahu (Maluku) / Sam Ratulangi (Sulut terkait)","Sam Ratulangi","Pattimura","Teuku Umar"], a:"Sam Ratulangi" },
+      { q:"Peristiwa 'Pergerakan Nasional' di Indonesia dimulai pada abad ke?", opts:["20 (abad ke-20)","19","18","21"], a:"20 (abad ke-20)" },
+      { q:"Siapa tokoh pelopor pers nasional: 'Kota Bandung' kongres Asia Afrika tokoh kunci?", opts:["Mohammad Hatta & Soekarno (lebih Soekarno)","Soekarno","Mohammad Hatta","Sutan Sjahrir"], a:"Soekarno" },
+      { q:"Perwujudan 'Trikora' bertujuan merebut?", opts:["Irian Barat (Papua)","Malaysia","Timor Leste","Sabang"], a:"Irian Barat (Papua)" },
+      { q:"Perjanjian 'Renville' berlangsung pada tahun berapa kira-kira?", opts:["1948","1947","1946","1949"], a:"1948" },
+      { q:"Siapa tokoh yang memprakarsai Kongres Pemuda II (Sumpah Pemuda)?", opts:["Pemuda dari berbagai organisasi (tidak satu nama)","Soekarno","Mohammad Hatta","Ki Hajar Dewantara"], a:"Pemuda dari berbagai organisasi (tidak satu nama)" },
+      { q:"Apa peran 'Tokoh Ahmad Yani' dalam sejarah Indonesia?", opts:["Jenderal TNI, pahlawan nasional (dibunuh G30S)","Presiden Indonesia","PM Indonesia","Pahlawan revolusi 1945"], a:"Jenderal TNI, pahlawan nasional (dibunuh G30S)" },
+      { q:"Peristiwa 'G30S/PKI' pada tahun 1965 ditandai dengan penculikan dan pembunuhan siapa?", opts:["Para Jenderal (6 jenderal & perwira tinggi)","Tokoh sipil","Pejuang kemerdekaan","Pemuka agama"], a:"Para Jenderal (6 jenderal & perwira tinggi)" },
+      { q:"Siapa yang menyusun naskah Piagam Jakarta (14 Juni 1945) untuk sidang BPUPKI?", opts:["Hatta, Soekarno, & anggota BPUPKI (perdebatan mengenai sila pertama)","Soekarno","Hatta","Soepomo"], a:"Hatta, Soekarno, & anggota BPUPKI (perdebatan mengenai sila pertama)" }
+    ];
+
+    // ======= Pilih 20 soal acak tiap permainan =======
+    const QUESTIONS_COUNT = 20;
+    let questions = [];
+    function pickRandomQuestions(){
+      const pool = [...allQuestions];
+      for(let i=pool.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [pool[i],pool[j]]=[pool[j],pool[i]];
+      }
+      return pool.slice(0, Math.min(QUESTIONS_COUNT,pool.length));
+    }
+
+    // State
+    let current = 0;
+    let score = 0;
+    let player = "";
+    let timeLeft = 15;
+    let timer = null;
+
+    // Elements
+    const startScreen = document.getElementById('startScreen');
+    const quizScreen = document.getElementById('quizScreen');
+    const resultScreen = document.getElementById('resultScreen');
+    const playerInput = document.getElementById('playerName');
+    const questionText = document.getElementById('questionText');
+    const optionsDiv = document.getElementById('options');
+    const timerEl = document.getElementById('timer');
+    const progressEl = document.getElementById('progress');
+    const notif = document.getElementById('notif');
+    const resultText = document.getElementById('resultText');
+    const scoreDetail = document.getElementById('scoreDetail');
+
+    function showNotif(type, text){
+      notif.className = 'notif '+type+' show';
+      notif.textContent = text;
+      setTimeout(()=>{ notif.className='notif'; notif.textContent=''; }, 900);
+    }
+
+    function startQuiz(){
+      const name = playerInput.value.trim();
+      if(!name){ showNotif('wrong','⚠️ Masukkan nama dulu!'); return; }
+      player = name;
+      questions = pickRandomQuestions();
+      current = 0; score = 0;
+      startScreen.style.display = 'none'; resultScreen.style.display = 'none'; quizScreen.style.display = 'block';
+      scoreDetail.style.display = 'none'; renderQuestion(); startTimer();
+    }
+
+    function startTimer(){
+      timeLeft = 15; timerEl.textContent = `⏳ Waktu: ${timeLeft}s`;
+      clearInterval(timer);
+      timer = setInterval(()=>{
+        timeLeft--; timerEl.textContent = `⏳ Waktu: ${timeLeft}s`;
+        if(timeLeft<=0){ clearInterval(timer); showNotif('timeout','⏰ Waktu Habis!'); setTimeout(()=> nextQuestion(), 800); }
+      },1000);
+    }
+
+    function renderQuestion(){
+      const q = questions[current];
+      progressEl.textContent = `Soal ${current+1} / ${questions.length}`;
+      questionText.textContent = `❓ ${q.q}`;
+      optionsDiv.innerHTML = '';
+      const opts = [...q.opts];
+      for(let i=opts.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [opts[i],opts[j]]=[opts[j],opts[i]]; }
+      opts.forEach(opt=>{
+        const el = document.createElement('div'); el.className='opt'; el.textContent = opt; el.onclick = ()=> checkAnswer(opt); optionsDiv.appendChild(el);
+      });
+    }
+
+    function checkAnswer(selected){
+      clearInterval(timer);
+      const q = questions[current];
+      if(selected === q.a){ score += 5; showNotif('correct','✅ Benar!'); }
+      else { showNotif('wrong','❌ Salah!'); }
+      setTimeout(()=> nextQuestion(), 700);
+    }
+
+    function nextQuestion(){
+      current++; if(current < questions.length){ renderQuestion(); startTimer(); } else { endQuiz(); }
+    }
+
+    function endQuiz(){
+      clearInterval(timer); quizScreen.style.display = 'none'; resultScreen.style.display = 'block';
+      resultText.textContent = `🎊 ${player}, skor kamu: ${score} dari ${questions.length*5} poin.`;
+      scoreDetail.style.display = 'none';
+    }
+
+    function showScore(){
+      const max = questions.length*5; const nilai = (score / max) * 100; let grade='';
+      if(nilai >= 85) grade = 'Sangat Baik'; else if(nilai >= 70) grade = 'Baik'; else if(nilai >= 50) grade = 'Cukup'; else grade = 'Perlu Latihan';
+      scoreDetail.style.display = 'block'; scoreDetail.textContent = `Nilai: ${nilai.toFixed(0)} | Kategori: ${grade}`;
+      try{ const hist = JSON.parse(localStorage.getItem('quizHistory')||'[]'); hist.push({ name: player, score, max, percent: Math.round(nilai), date:(new Date()).toISOString() }); localStorage.setItem('quizHistory', JSON.stringify(hist.slice(-50))); }catch(e){}
+    }
+
+    window.startQuiz = startQuiz; window.showScore = showScore;
+    playerInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') startQuiz(); });
+  </script>
 </body>
 </html>
+
 
