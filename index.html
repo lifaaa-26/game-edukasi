@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kuis Sejarah Indonesia</title>
   <style>
-    /* 🌈 Tema warna cerah ala Quizizz */
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #a2d2ff, #ffc8dd, #bde0fe, #caffbf);
@@ -31,7 +30,6 @@
       width: 90%;
       max-width: 480px;
       text-align: center;
-      transition: all 0.4s ease;
       animation: fadeIn 0.7s ease;
     }
 
@@ -146,7 +144,7 @@
 </head>
 <body>
   <div class="container" id="startScreen">
-    <h2>🌺 Kuis Sejarah Indonesia 🎯</h2>
+    <h2> Kuis Sejarah Indonesia </h2>
     <p>Masukkan nama kamu untuk mulai bermain!</p>
     <input type="text" id="playerName" placeholder="Nama kamu" />
     <button onclick="startQuiz()">🚀 Mulai Kuis</button>
@@ -228,8 +226,6 @@
       const q = questions[currentQuestion];
       document.getElementById("questionText").textContent = `❓ ${q.question}`;
       const optionsDiv = document.getElementById("options");
-      const memeDiv = document.getElementById("memeBox");
-      memeDiv.innerHTML = `<img src="${memes[Math.floor(Math.random() * memes.length)]}" alt="meme">`;
       optionsDiv.innerHTML = "";
       const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
       shuffledOptions.forEach(option => {
@@ -241,6 +237,11 @@
       });
     }
 
+    function updateMeme() {
+      const memeDiv = document.getElementById("memeBox");
+      memeDiv.innerHTML = `<img src="${memes[Math.floor(Math.random() * memes.length)]}" alt="meme">`;
+    }
+
     function checkAnswer(selected) {
       clearInterval(timer);
       if (selected === questions[currentQuestion].answer) {
@@ -249,6 +250,8 @@
       } else {
         showNotification("wrong", "❌ Salah!");
       }
+      // 🔹 Meme ganti setelah menjawab soal
+      updateMeme();
       setTimeout(nextQuestion, 1000);
     }
 
