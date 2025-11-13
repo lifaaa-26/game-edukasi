@@ -14,7 +14,9 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
+      overflow: hidden;
     }
+
     .container {
       background: rgba(255, 255, 255, 0.9);
       padding: 25px 30px;
@@ -24,7 +26,9 @@
       max-width: 420px;
       text-align: center;
       backdrop-filter: blur(5px);
+      transition: all 0.5s ease;
     }
+
     button {
       margin-top: 12px;
       padding: 10px 18px;
@@ -37,10 +41,12 @@
       cursor: pointer;
       transition: transform 0.2s ease, background 0.3s;
     }
+
     button:hover {
       transform: scale(1.05);
       background: linear-gradient(135deg, #ff99c8, #99c9ff);
     }
+
     .option {
       display: block;
       background: #f0f4ff;
@@ -50,15 +56,18 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
+
     .option:hover {
       background: #dbe7ff;
       transform: scale(1.03);
     }
+
     #timer {
       font-weight: bold;
       color: #ff4d6d;
       margin-bottom: 10px;
     }
+
     #highScoreList {
       margin-top: 15px;
       text-align: left;
@@ -69,8 +78,10 @@
       max-height: 150px;
       overflow-y: auto;
     }
+
     h2 { color: #2b2b2b; }
     h3 { color: #444; }
+
     input {
       padding: 8px;
       width: 80%;
@@ -79,30 +90,59 @@
       outline: none;
       text-align: center;
     }
+
     input:focus { border-color: #7dbaff; }
 
-    /* Tombol Reset khusus */
     #resetBtn {
       background: #ff6b6b;
       margin-top: 10px;
       padding: 8px 14px;
       font-weight: 600;
     }
+
     #resetBtn:hover {
       background: #ff4a4a;
       transform: scale(1.05);
     }
+
+    /* 🔔 Notifikasi di tengah layar */
+    .notification {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      padding: 20px 40px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      opacity: 0;
+      animation: popUp 1s ease forwards;
+      z-index: 999;
+    }
+
+    @keyframes popUp {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+      30% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+      70% { opacity: 1; transform: translate(-50%, -60%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -70%) scale(0.8); }
+    }
+
+    .correct { background: #d4edda; color: #155724; }
+    .wrong { background: #f8d7da; color: #721c24; }
+    .timeout { background: #fff3cd; color: #856404; }
   </style>
 </head>
 <body>
   <div class="container" id="startScreen">
-    <h2>Selamat Datang di 🌺 Kuis Sejarah Indonesia 🎯</h2>
+    <h2>Selamat Datang di Kuis Sejarah Indonesia </h2>
     <p>Masukkan nama kamu untuk memulai:</p>
     <input type="text" id="playerName" placeholder="Nama kamu" />
     <button onclick="startQuiz()">🚀 Mulai Kuis</button>
 
     <div id="highScoreList"></div>
-    <!-- Tombol reset daftar pemain -->
     <button id="resetBtn" onclick="resetPlayers()">♻️ Reset Daftar Pemain</button>
   </div>
 
@@ -130,20 +170,9 @@
       { question: "Sumpah Pemuda diikrarkan tahun?", options: ["1926", "1927", "1928", "1930"], answer: "1928" },
       { question: "Siapa yang menulis naskah teks proklamasi?", options: ["Soekarno", "Hatta", "Sudirman", "Sayuti Melik"], answer: "Soekarno" },
       { question: "Apa tujuan Kongres Pemuda II?", options: ["Mendirikan partai politik", "Memperjuangkan kemerdekaan", "Menegaskan persatuan Indonesia", "Membentuk organisasi baru"], answer: "Menegaskan persatuan Indonesia" },
-      { question: "Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" },
-      { question: "Apa nama kerajaan Hindu pertama di Indonesia?", options: ["Kutai", "Sriwijaya", "Majapahit", "Tarumanegara"], answer: "Kutai" },
-      { question: "Siapa pendiri Kerajaan Majapahit?", options: ["Raden Wijaya", "Gajah Mada", "Hayam Wuruk", "Kertanegara"], answer: "Raden Wijaya" },
-      { question: "Apa isi utama dari Sumpah Palapa?", options: ["Janji Gajah Mada mempersatukan Nusantara", "Perintah menyerang Majapahit", "Deklarasi kemerdekaan", "Perjanjian damai dengan Sriwijaya"], answer: "Janji Gajah Mada mempersatukan Nusantara" },
-      { question: "Siapa tokoh pahlawan dari Aceh yang terkenal dengan julukan 'Singa Betina dari Aceh'?", options: ["Cut Nyak Dien", "Martha Christina Tiahahu", "R.A. Kartini", "Dewi Sartika"], answer: "Cut Nyak Dien" },
-      { question: "Kapan peristiwa Rengasdengklok terjadi?", options: ["16 Agustus 1945", "17 Agustus 1945", "15 Agustus 1945", "18 Agustus 1945"], answer: "16 Agustus 1945" },
-      { question: "Apa isi dari Piagam Jakarta?", options: ["Dasar negara Indonesia", "Teks Proklamasi", "Perjanjian Linggarjati", "Sumpah Pemuda"], answer: "Dasar negara Indonesia" },
-      { question: "Siapa tokoh yang dikenal sebagai Bapak Pendidikan Nasional?", options: ["Ki Hajar Dewantara", "Soekarno", "Moh. Hatta", "Tan Malaka"], answer: "Ki Hajar Dewantara" },
-      { question: "Kapan peristiwa G30S/PKI terjadi?", options: ["1965", "1960", "1955", "1970"], answer: "1965" },
-      { question: "Apa nama badan yang mempersiapkan kemerdekaan Indonesia?", options: ["BPUPKI", "PPKI", "KNIP", "BKR"], answer: "BPUPKI" },
-      { question: "Siapa presiden kedua Republik Indonesia?", options: ["Soeharto", "Soekarno", "BJ Habibie", "Abdurrahman Wahid"], answer: "Soeharto" }
+      { question: "Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" }
     ];
 
-    // 🔀 Acak urutan soal
     questions.sort(() => Math.random() - 0.5);
 
     let currentQuestion = 0;
@@ -151,6 +180,14 @@
     let player = "";
     let timeLeft = 15;
     let timer;
+
+    function showNotification(type, text) {
+      const note = document.createElement("div");
+      note.className = `notification ${type}`;
+      note.textContent = text;
+      document.body.appendChild(note);
+      setTimeout(() => note.remove(), 1000);
+    }
 
     function showPlayerList() {
       const listDiv = document.getElementById("highScoreList");
@@ -161,8 +198,7 @@
       }
       let html = "<h4>📜 Daftar Pemain Terakhir</h4><ul>";
       players.slice(-5).reverse().forEach(p => {
-        html += `👤 ${p.name} - ⭐ ${p.score} poin`;
-        html += "<br>";
+        html += `👤 ${p.name} - ⭐ ${p.score} poin<br>`;
       });
       html += "</ul>";
       listDiv.innerHTML = html;
@@ -177,11 +213,10 @@
     function startQuiz() {
       const nameInput = document.getElementById("playerName").value.trim();
       if (nameInput === "") {
-        alert("⚠️ Masukkan nama dulu ya!");
+        showNotification("wrong", "⚠️ Masukkan nama dulu!");
         return;
       }
       player = nameInput;
-
       document.getElementById("startScreen").style.display = "none";
       document.getElementById("quizScreen").style.display = "block";
       showQuestion();
@@ -197,7 +232,7 @@
         document.getElementById("timer").textContent = `⏳ Waktu: ${timeLeft} detik`;
         if (timeLeft <= 0) {
           clearInterval(timer);
-          alert("⌛ Waktu habis!");
+          showNotification("timeout", "⏰ Waktu Habis!");
           nextQuestion();
         }
       }, 1000);
@@ -206,13 +241,9 @@
     function showQuestion() {
       const q = questions[currentQuestion];
       document.getElementById("questionText").textContent = `❓ ${q.question}`;
-
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
-
-      // 🔀 Acak urutan opsi jawaban
       const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
-
       shuffledOptions.forEach(option => {
         const btn = document.createElement("div");
         btn.textContent = `👉 ${option}`;
@@ -225,12 +256,12 @@
     function checkAnswer(selected) {
       clearInterval(timer);
       if (selected === questions[currentQuestion].answer) {
-        score += 5; // 🎯 Tiap soal = 5 poin (20 soal = 100 poin total)
-        alert("✅ Benar 🎉");
+        score += 5;
+        showNotification("correct", "🎉 Benar!");
       } else {
-        alert("❌ Salah 😅");
+        showNotification("wrong", "❌ Salah!");
       }
-      nextQuestion();
+      setTimeout(nextQuestion, 1000);
     }
 
     function nextQuestion() {
@@ -247,26 +278,21 @@
       clearInterval(timer);
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("resultScreen").style.display = "block";
-      document.getElementById("resultText").textContent =
-        `🎊 ${player}, skor kamu adalah ${score} dari 100 poin.`;
+      document.getElementById("resultText").textContent = `🎊 ${player}, skor kamu adalah ${score} dari 100 poin.`;
 
       const highScore = JSON.parse(localStorage.getItem("highScore")) || { name: "-", score: 0 };
       if (score > highScore.score) {
-        localStorage.setItem("highScore", JSON.stringify({ name: player, score: score }));
+        localStorage.setItem("highScore", JSON.stringify({ name: player, score }));
         document.getElementById("highScoreText").textContent = `🏆 Selamat ${player}! Kamu mencetak skor tertinggi!`;
       } else {
-        document.getElementById("highScoreText").textContent =
-          `🥇 Skor tertinggi saat ini: ${highScore.name} - ${highScore.score} poin.`;
+        document.getElementById("highScoreText").textContent = `🥇 Skor tertinggi saat ini: ${highScore.name} - ${highScore.score} poin.`;
       }
 
-      // 🔥 Simpan nama pemain dan skor ke daftar pemain
       const players = JSON.parse(localStorage.getItem("players")) || [];
-      players.push({ name: player, score: score });
+      players.push({ name: player, score });
       localStorage.setItem("players", JSON.stringify(players));
-
       showPlayerList();
     }
   </script>
 </body>
 </html>
-
