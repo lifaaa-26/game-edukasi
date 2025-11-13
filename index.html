@@ -116,7 +116,6 @@
       { question: "Siapa yang menulis naskah teks proklamasi?", options: ["Soekarno", "Hatta", "Sudirman", "Sayuti Melik"], answer: "Soekarno" },
       { question: "Apa tujuan Kongres Pemuda II?", options: ["Mendirikan partai politik", "Memperjuangkan kemerdekaan", "Menegaskan persatuan Indonesia", "Membentuk organisasi baru"], answer: "Menegaskan persatuan Indonesia" },
       { question: "Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" },
-      // 🔽 Tambahan 10 soal baru
       { question: "Apa nama kerajaan Hindu pertama di Indonesia?", options: ["Kutai", "Sriwijaya", "Majapahit", "Tarumanegara"], answer: "Kutai" },
       { question: "Siapa pendiri Kerajaan Majapahit?", options: ["Raden Wijaya", "Gajah Mada", "Hayam Wuruk", "Kertanegara"], answer: "Raden Wijaya" },
       { question: "Apa isi utama dari Sumpah Palapa?", options: ["Janji Gajah Mada mempersatukan Nusantara", "Perintah menyerang Majapahit", "Deklarasi kemerdekaan", "Perjanjian damai dengan Sriwijaya"], answer: "Janji Gajah Mada mempersatukan Nusantara" },
@@ -194,7 +193,11 @@
 
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
-      q.options.forEach(option => {
+
+      // 🔀 Acak urutan opsi jawaban
+      const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+      shuffledOptions.forEach(option => {
         const btn = document.createElement("div");
         btn.textContent = option;
         btn.classList.add("option");
@@ -206,7 +209,7 @@
     function checkAnswer(selected) {
       clearInterval(timer);
       if (selected === questions[currentQuestion].answer) {
-        score += 10;
+        score += 5; // 🎯 Tiap soal = 5 poin (20 soal = 100 poin total)
         alert("Benar 🎉");
       } else {
         alert("Salah 😅");
@@ -229,7 +232,7 @@
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("resultScreen").style.display = "block";
       document.getElementById("resultText").textContent =
-        `${player}, skor kamu adalah ${score} dari ${questions.length * 10} poin.`;
+        `${player}, skor kamu adalah ${score} dari 100 poin.`;
 
       const highScore = JSON.parse(localStorage.getItem("highScore")) || { name: "-", score: 0 };
       if (score > highScore.score) {
