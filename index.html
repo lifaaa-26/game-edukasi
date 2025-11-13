@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Sejarah Indonesia</title>
+  <style>
+    /* 🌸 Gaya Umum */
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #ffd6e8, #d6e9ff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* 🌼 Kontainer utama */
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 25px 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
+
+    /* Tombol */
+    button {
+      margin-top: 12px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #ff80b5, #7dbaff);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #ff99c8, #99c9ff);
+    }
+
+    /* Pilihan jawaban */
+    .option {
+      display: block;
+      background: #f0f4ff;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option:hover {
+      background: #dbe7ff;
+      transform: scale(1.03);
+    }
+
+    /* Timer */
+    #timer {
+      font-weight: bold;
+      color: #ff4d6d;
+      margin-bottom: 10px;
+    }
+
+    /* Daftar pemain */
+    #highScoreList {
+      margin-top: 15px;
+      text-align: left;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      color: #2b2b2b;
+    }
+
+    h3 {
+      color: #444;
+    }
+
+    input {
+      padding: 8px;
+      width: 80%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+      text-align: center;
+    }
+    input:focus {
+      border-color: #7dbaff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="startScreen">
+    <h2>Selamat Datang di 🌺 Kuis Sejarah Indonesia 🎯</h2>
+    <p>Masukkan nama kamu untuk memulai:</p>
+    <input type="text" id="playerName" placeholder="Nama kamu">
+    <button onclick="startQuiz()">Mulai Kuis</button>
+    <div id="highScoreList"></div>
+  </div>
+
+  <div class="container" id="quizScreen" style="display:none;">
+    <div id="timer">Waktu: 15 detik</div>
+    <h3 id="questionText"></h3>
+    <div id="options"></div>
+  </div>
+
+  <div class="container" id="resultScreen" style="display:none;">
+    <h2>Hasil Kuis 🎉</h2>
+    <p id="resultText"></p>
+    <p id="highScoreText"></p>
+    <button onclick="location.reload()">Main Lagi</button>
+  </div>
+
+  <script>
+    const questions = [
+      { question: "1. Kapan Indonesia merdeka?", options: ["17 Agustus 1945", "20 Mei 1908", "10 November 1945", "1 Juni 1945"], answer: "17 Agustus 1945" },
+      { question: "2. Siapa yang membacakan teks proklamasi?", options: ["Soekarno", "Moh. Hatta", "Soeharto", "Sudirman"], answer: "Soekarno" },
+      { question: "3. Dimana teks proklamasi dibacakan?", options: ["Istana Negara", "Pegangsaan Timur 56", "Lapangan Banteng", "Gedung Pancasila"], answer: "Pegangsaan Timur 56" },
+      { question: "4. Siapa yang mengetik teks proklamasi?", options: ["Sayuti Melik", "Ahmad Soebardjo", "Suharto", "Amir Sjarifuddin"], answer: "Sayuti Melik" },
+      { question: "5. Organisasi Budi Utomo berdiri tahun berapa?", options: ["1905", "1908", "1912", "1928"], answer: "1908" },
+      { question: "6. Siapa pendiri organisasi Muhammadiyah?", options: ["KH Ahmad Dahlan", "HOS Tjokroaminoto", "Ki Hajar Dewantara", "Soekarno"], answer: "KH Ahmad Dahlan" },
+      { question: "7. Sumpah Pemuda diikrarkan tahun?", options: ["1926", "1927", "1928", "1930"], answer: "1928" },
+      { question: "8. Siapa yang menulis naskah teks proklamasi?", options: ["Soekarno", "Hatta", "Sudirman", "Sayuti Melik"], answer: "Soekarno" },
+      { question: "9. Apa tujuan Kongres Pemuda II?", options: ["Mendirikan partai politik", "Memperjuangkan kemerdekaan", "Menegaskan persatuan Indonesia", "Membentuk organisasi baru"], answer: "Menegaskan persatuan Indonesia" },
+      { question: "10. Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let player = "";
+    let timeLeft = 15;
+    let timer;
+
+    function showPlayerList() {
+      const listDiv = document.getElementById("highScoreList");
+      const players = JSON.parse(localStorage.getItem("players")) || [];
+      if (players.length === 0) {
+        listDiv.innerHTML = "<h4>Belum ada pemain</h4>";
+        return;
+      }
+      let html = "<h4>📜 Daftar Pemain</h4><ul>";
+      players.slice(-5).reverse().forEach(p => {
+        html += `<li>${p.name} - ${p.score} poin</li>`;
+      });
+      html += "</ul>";
+      listDiv.innerHTML = html;
+    }
+    showPlayerList();
+
+    function startQuiz() {
+      const nameInput = document.getElementById("playerName").value.trim();
+      if (nameInput === "") {
+        alert("Masukkan nama dulu ya!");
+        return;
+      }
+      player = nameInput;
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("quizScreen").style.display = "block";
+      showQuestion();
+      startTimer();
+    }
+
+    function startTimer() {
+      timeLeft = 15;
+      document.getElementById("timer").textContent = `Waktu: ${timeLeft} detik`;
+      clearInterval(timer);
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").textContent = `Waktu: ${timeLeft} detik`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          alert("Waktu habis!");
+          nextQuestion();
+        }
+      }, 1000);
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("questionText").textContent = q.question;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(option => {
+        const btn = document.createElement("div");
+        btn.textContent = option;
+        btn.classList.add("option");
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      clearInterval(timer);
+      if (selected === questions[currentQuestion].answer) {
+        score += 10;
+        alert("Benar 🎉");
+      } else {
+        alert("Salah 😅");
+      }
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+        startTimer();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      clearInterval(timer);
+      document.getElementById("quizScreen").style.display = "none";
+      document.getElementById("resultScreen").style.display = "block";
+      document.getElementById("resultText").textContent =
+        `${player}, skor kamu adalah ${score} dari ${questions.length * 10} poin.`;
+
+      const players = JSON.parse(localStorage.getItem("players")) || [];
+      players.push({ name: player, score: score });
+      localStorage.setItem("players", JSON.stringify(players));
+
+      const highScore = localStorage.getItem("highScore") || 0;
+      if (score > highScore) {
+        localStorage.setItem("highScore", score);
+        document.getElementById("highScoreText").textContent = "🏆 Selamat! Kamu mencetak skor tertinggi!";
+      } else {
+        document.getElementById("highScoreText").textContent = `Skor tertinggi saat ini: ${highScore}`;
+      }
+    }
+  </script>
+</body>
+</html>
