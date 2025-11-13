@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kuis Sejarah Indonesia</title>
   <style>
     body {
@@ -86,7 +86,7 @@
   <div class="container" id="startScreen">
     <h2>Selamat Datang di 🌺 Kuis Sejarah Indonesia 🎯</h2>
     <p>Masukkan nama kamu untuk memulai:</p>
-    <input type="text" id="playerName" placeholder="Nama kamu">
+    <input type="text" id="playerName" placeholder="Nama kamu" />
     <button onclick="startQuiz()">Mulai Kuis</button>
     <div id="highScoreList"></div>
   </div>
@@ -140,10 +140,13 @@
     function showPlayerList() {
       const listDiv = document.getElementById("highScoreList");
       const players = JSON.parse(localStorage.getItem("players")) || [];
+
       if (players.length === 0) {
-        listDiv.innerHTML = "<h4>📜 Belum ada pemain</h4>";
+        listDiv.style.display = "none"; // Sembunyikan daftar kalau kosong
         return;
       }
+
+      listDiv.style.display = "block"; // Tampilkan daftar kalau ada pemain
       let html = "<h4>📜 Daftar Pemain</h4><ul>";
       players.slice(-5).reverse().forEach(p => {
         html += `<li>${p.name} - ${p.score} poin</li>`;
@@ -243,12 +246,10 @@
           `Skor tertinggi saat ini: ${highScore.name} - ${highScore.score} poin.`;
       }
 
-      // 🔥 Hapus nama pemain dari daftar setelah selesai
-      const players = JSON.parse(localStorage.getItem("players")) || [];
-      const updated = players.filter(p => p.name !== player);
-      localStorage.setItem("players", JSON.stringify(updated));
+      // Perbarui tampilan daftar pemain (otomatis sembunyi kalau kosong)
       showPlayerList();
     }
   </script>
 </body>
 </html>
+
