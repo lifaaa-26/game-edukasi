@@ -5,196 +5,185 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kuis Sejarah Indonesia - Tema Gelap</title>
   <style>
-    /* Tema gelap - background hitam & garis abu-abu */
-    :root{
-      --bg:#0b0b0b;
-      --card:#101014;
-      --muted:#9aa0a6;
-      --accent:#7dbaff;
-      --accent2:#ff80b5;
-      --border:#2b2b2f;
-      --success:#2ecc71;
-      --danger:#ff6b6b;
-      --warning:#f1c40f;
-      --glass: rgba(255,255,255,0.02);
+    :root {
+      --bg: #000; /* background utama hitam pekat */
+      --card: #111; /* kartu abu gelap */
+      --muted: #aaa;
+      --accent: #4da6ff;
+      --accent2: #ff80b5;
+      --border: #333; /* garis abu matang */
+      --success: #2ecc71;
+      --danger: #ff6b6b;
+      --warning: #f1c40f;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      font-family:Inter, "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:var(--bg);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
-      color:#e6eef6;
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Poppins", Inter, system-ui;
+      background: var(--bg);
+      color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
     }
 
     .app {
-      width:100%;
-      max-width:680px;
+      width: 100%;
+      max-width: 680px;
     }
 
-    .card{
-      background:linear-gradient(180deg,var(--card), rgba(16,16,20,0.95));
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:22px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
+    .card {
+      background: linear-gradient(180deg, #111, #0d0d0d);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.8);
     }
 
-    .header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:12px;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
     }
 
-    h1{
-      margin:0;
-      font-size:20px;
-      letter-spacing:0.2px;
-      color:#fff;
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      color: #fff;
     }
 
-    .meta{
-      color:var(--muted);
-      font-size:13px;
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
     }
 
-    .start-center{
-      text-align:center;
+    input[name="player"] {
+      width: 70%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: #eee;
+      outline: none;
+      font-size: 15px;
+      margin-top: 10px;
     }
 
-    input[name="player"]{
-      width:70%;
-      padding:10px 12px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:transparent;
-      color: #e6eef6;
-      outline:none;
-      font-size:15px;
-      margin-top:12px;
-    }
-    .btn{
-      display:inline-block;
-      padding:10px 16px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.04);
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      color:#081222;
-      font-weight:700;
-      cursor:pointer;
-      margin-top:12px;
-    }
-    .btn.ghost{
-      background:transparent;
-      color:var(--muted);
-      border:1px solid var(--border);
+    .btn {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: #000;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all .2s;
     }
 
-    /* Quiz area */
-    #quizScreen { display:none; margin-top:6px; }
-    .top-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding-bottom:12px;
-      border-bottom:1px solid var(--border);
-      margin-bottom:14px;
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
     }
-    .timer{
-      color:var(--warning);
-      font-weight:700;
-      font-size:15px;
+
+    .btn.ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
     }
-    .progress{
-      color:var(--muted);
-      font-size:13px;
+
+    #quizScreen, #resultScreen { display: none; }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 10px;
+    }
+
+    .timer {
+      color: var(--warning);
+      font-weight: 700;
+    }
+
+    .progress {
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .question {
-      font-size:18px;
-      font-weight:700;
-      margin:12px 0;
-      color:#ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 12px 0;
+      color: #fff;
     }
 
-    .options{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-top:6px;
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .opt{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid var(--border);
-      padding:12px 14px;
-      border-radius:10px;
-      cursor:pointer;
-      transition:transform .12s ease, box-shadow .12s;
-      color:#e8eef6;
-      font-weight:600;
+    .opt {
+      background: #111;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #eee;
+      font-weight: 600;
+      transition: all 0.2s;
     }
-    .opt:hover{ transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,0,0,0.6); }
 
-    /* Result area */
-    #resultScreen{ display:none; text-align:center; margin-top:12px;}
-    .result-score{ font-size:20px; font-weight:800; margin:8px 0; color:#fff; }
+    .opt:hover {
+      transform: translateY(-3px);
+      background: #1a1a1a;
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
 
-    /* Notification center (middle) */
     .notif {
-      position:fixed;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%) scale(.95);
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border:1px solid var(--border);
-      padding:18px 28px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:22px;
-      z-index:999;
-      color:#f0f8ff;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-      opacity:0;
-      pointer-events:none;
-    }
-    .notif.show{ animation:pop .95s ease forwards; pointer-events:auto; }
-    @keyframes pop {
-      0%{ opacity:0; transform:translate(-50%,-50%) scale(.8); }
-      40%{ opacity:1; transform:translate(-50%,-50%) scale(1.06); }
-      75%{ opacity:1; transform:translate(-50%,-58%) scale(1); }
-      100%{ opacity:0; transform:translate(-50%,-66%) scale(.92); }
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      padding: 20px 30px;
+      border-radius: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      opacity: 0;
+      transition: opacity .3s;
+      z-index: 999;
     }
 
-    .notif.correct{ background: linear-gradient(90deg, rgba(46,204,113,0.12), rgba(46,204,113,0.06)); color:var(--success); border:1px solid rgba(46,204,113,0.18); }
-    .notif.wrong{ background: linear-gradient(90deg, rgba(255,107,107,0.06), rgba(255,107,107,0.02)); color:var(--danger); border:1px solid rgba(255,107,107,0.12); }
-    .notif.timeout{ background: linear-gradient(90deg, rgba(241,196,15,0.06), rgba(241,196,15,0.02)); color:var(--warning); border:1px solid rgba(241,196,15,0.12); }
+    .notif.show {
+      opacity: 1;
+      animation: fadeOut 1.5s ease forwards;
+    }
 
-    /* small */
-    .small{ font-size:13px; color:var(--muted); }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: translate(-50%,-50%) scale(1.1); }
+      100% { opacity: 0; transform: translate(-50%,-50%) scale(0.9); }
+    }
+
     .footer {
-      margin-top:12px;
-      border-top:1px dashed var(--border);
-      padding-top:12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      color:var(--muted);
-      font-size:13px;
-    }
-    @media (max-width:520px){
-      .card{ padding:16px; border-radius:12px }
-      input[name="player"]{ width:100% }
-      .top-row{ flex-direction:column; align-items:flex-start; gap:8px }
+      margin-top: 15px;
+      border-top: 1px dashed var(--border);
+      padding-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
     }
   </style>
 </head>
@@ -204,344 +193,43 @@
       <div class="header">
         <div>
           <h1>Kuis Sejarah Indonesia</h1>
-          <div class="meta small">Tema: Sejarah — 20 soal acak dari 100</div>
+          <div class="meta">Tema: Sejarah — 20 soal acak dari 100</div>
         </div>
-        <div class="meta small">oleh: Kamu</div>
+        <div class="meta">oleh: Kamu</div>
       </div>
 
-      <!-- START SCREEN -->
       <div id="startScreen" class="start-center">
-        <p class="small">Masukkan nama untuk memulai kuis:</p>
-        <input name="player" id="playerName" placeholder="Nama kamu..." autocomplete="off" />
-        <div>
-          <button class="btn" onclick="startQuiz()">🚀 Mulai Kuis</button>
-        </div>
+        <p class="meta">Masukkan nama kamu:</p>
+        <input id="playerName" name="player" placeholder="Nama kamu..." />
+        <div><button class="btn" onclick="startQuiz()">🚀 Mulai Kuis</button></div>
       </div>
 
-      <!-- QUIZ SCREEN -->
       <div id="quizScreen">
         <div class="top-row">
           <div class="timer" id="timer">⏳ Waktu: 15s</div>
           <div class="progress" id="progress">Soal 1 / 20</div>
         </div>
-
         <div id="questionCard">
           <div class="question" id="questionText">Pertanyaan muncul di sini</div>
           <div class="options" id="options"></div>
         </div>
       </div>
 
-      <!-- RESULT SCREEN -->
       <div id="resultScreen">
-        <div class="result-score" id="resultText">Skor kamu</div>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <button class="btn" onclick="showScore()">📊 Lihat Nilai</button>
+        <div class="result-score" id="resultText">Skor kamu: 0</div>
+        <div style="margin-top:10px;">
           <button class="btn ghost" onclick="location.reload()">🔄 Main Lagi</button>
         </div>
-        <p id="scoreDetail" class="small" style="margin-top:12px; display:none"></p>
       </div>
 
       <div class="footer">
-        <div>Durasi tiap soal: 15 detik</div>
-        <div>Soal acak tiap permainan</div>
+        <div>Durasi: 15 detik/soal</div>
+        <div>Soal acak tiap main</div>
       </div>
     </div>
   </div>
 
   <div id="notif" class="notif"></div>
-
-  <script>
-    // ======= Semua 100 soal (Sejarah Indonesia) =======
-    // Jika mau edit tambahan soal, ubah array di bawah
-    const allQuestions = [
-      { q:"Kapan Indonesia memproklamasikan kemerdekaan?", opts:["17 Agustus 1945","1 Juni 1945","10 November 1945","20 Mei 1908"], a:"17 Agustus 1945" },
-      { q:"Siapa yang membacakan teks Proklamasi?", opts:["Soekarno","Mohammad Hatta","Sayuti Melik","Sudirman"], a:"Soekarno" },
-      { q:"Di jalan mana teks Proklamasi dibacakan?", opts:["Pegangsaan Timur 56","Istana Negara","Lapangan Banteng","Gereja Katedral"], a:"Pegangsaan Timur 56" },
-      { q:"Siapa yang mengetik naskah Proklamasi?", opts:["Sayuti Melik","Abdul Haris Nasution","Sutan Sjahrir","Suharto"], a:"Sayuti Melik" },
-      { q:"Organisasi Budi Utomo didirikan tahun berapa?", opts:["1908","1905","1912","1928"], a:"1908" },
-      { q:"Kapan Sumpah Pemuda diikrarkan?", opts:["1928","1926","1927","1930"], a:"1928" },
-      { q:"Siapa pendiri Muhammadiyah?", opts:["KH Ahmad Dahlan","Ki Hajar Dewantara","HOS Tjokroaminoto","Sudirman"], a:"KH Ahmad Dahlan" },
-      { q:"Tokoh yang dikenal sebagai Bapak Pendidikan Nasional adalah?", opts:["Ki Hajar Dewantara","Soekarno","Moh. Hatta","Tan Malaka"], a:"Ki Hajar Dewantara" },
-      { q:"Piagam Jakarta berkaitan dengan?", opts:["Dasar negara (Pancasila)","Teks Proklamasi","Sumpah Pemuda","Perjanjian Giyanti"], a:"Dasar negara (Pancasila)" },
-      { q:"BPUPKI dibentuk pada tanggal berapa?", opts:["29 Mei 1945","1 Juni 1945","29 April 1945","10 Juli 1945"], a:"29 April 1945" },
-      { q:"Siapa proklamator kemerdekaan selain Soekarno?", opts:["Mohammad Hatta","Sutan Sjahrir","Tan Malaka","Sudirman"], a:"Mohammad Hatta" },
-      { q:"Konferensi Asia-Afrika pertama diselenggarakan di kota?", opts:["Bandung","Jakarta","Surabaya","Yogyakarta"], a:"Bandung" },
-      { q:"Tokoh perenyah sumpah palapa adalah?", opts:["Gajah Mada","Raden Wijaya","Hayam Wuruk","Kertanegara"], a:"Gajah Mada" },
-      { q:"Kerajaan Majapahit didirikan oleh?", opts:["Raden Wijaya","Gajah Mada","Hayam Wuruk","Kertanegara"], a:"Raden Wijaya" },
-      { q:"Ibu kota Kerajaan Mataram Kuno berada di?", opts:["Medang","Kedu","Sunda","Kutai"], a:"Medang" },
-      { q:"Perjanjian Linggarjati terjadi antara Indonesia dan?", opts:["Belanda","Portugal","Inggris","Prancis"], a:"Belanda" },
-      { q:"Peristiwa Rengasdengklok terjadi pada tanggal?", opts:["16 Agustus 1945","17 Agustus 1945","15 Agustus 1945","18 Agustus 1945"], a:"16 Agustus 1945" },
-      { q:"Apa nama serangan 10 November 1945 di Surabaya?", opts:["Pertempuran Surabaya","Agresi Militer Belanda","Serangan Umum 1 Maret","Peristiwa Bandung Lautan Api"], a:"Pertempuran Surabaya" },
-      { q:"Siapa panglima yang terkenal dalam perang Diponegoro?", opts:["Pangeran Diponegoro","Gajah Mada","Raden Wijaya","Sultan Agung"], a:"Pangeran Diponegoro" },
-      { q:"Sukarno proklamator memegang jabatan presiden keberapa?", opts:["Pertama","Kedua","Ketiga","Keempat"], a:"Pertama" },
-      { q:"Apa nama badan yang menggantikan BPUPKI?", opts:["PPKI","KNIP","BKR","Badan Keamanan Rakyat"], a:"PPKI" },
-      { q:"Tokoh pemimpin gerakan pemuda yang memproklamasikan Sumpah Pemuda?", opts:["Wahyu Suta","Aktifitas kolektif","Pemuda Indonesia (umum)","Bung Tomo"], a:"Pemuda Indonesia (umum)" },
-      { q:"Nama perjanjian yang mengakui kedaulatan Indonesia pada 1949?", opts:["Konferensi Meja Bundar (KMB)","Perjanjian Linggarjati","Agresi Militer II","Perjanjian Renville"], a:"Konferensi Meja Bundar (KMB)" },
-      { q:"Kapan Konferensi Meja Bundar (KMB) berlangsung?", opts:["1949","1948","1947","1946"], a:"1949" },
-      { q:"Apa itu G30S/PKI terjadi tahun?", opts:["1965","1955","1960","1970"], a:"1965" },
-      { q:"Siapa panglima perang pada zaman kolonial VOC di Jawa?", opts:["Untung Surapati","Sunan Kalijaga","Diponegoro","Sultan Agung"], a:"Untung Surapati" },
-      { q:"Peristiwa 'Bandung Lautan Api' terjadi pada tahun?", opts:["1946","1945","1947","1950"], a:"1946" },
-      { q:"Kapan Proklamasi Kemerdekaan Indonesia dibacakan (tanggal lengkap)?", opts:["17 Agustus 1945","16 Agustus 1945","18 Agustus 1945","15 Agustus 1945"], a:"17 Agustus 1945" },
-      { q:"Siapa pemimpin Sumpah Pemuda dan kongres pemuda II?", opts:["Tokoh kolektif, tidak satu orang"], opts_alt: null, a:"Pemuda Indonesia (umum)" },
-      { q:"Siapa yang terkenal dengan Julukan 'Singa Betina dari Aceh'?", opts:["Cut Nyak Dien","Cut Mutia","Cut Nyak Meutia","Cut Nyi Roro Kidul"], a:"Cut Nyak Dien" },
-      { q:"Organisasi Sarekat Islam muncul pada awal abad ke?", opts:["20 (1900an)","19","18","21"], a:"20 (1900an)" },
-      { q:"Tokoh HOS Tjokroaminoto terkenal sebagai guru bagi?", opts:["Sukarno & Sjahrir","Ki Hajar Dewantara","Sutan Sjahrir","Sudirman"], a:"Sukarno & Sjahrir" },
-      { q:"Agenda Sumpah Palapa berkaitan dengan siapa?", opts:["Gajah Mada","Raden Wijaya","Hayam Wuruk","Kertanegara"], a:"Gajah Mada" },
-      { q:"Kerajaan Sriwijaya berbasis di pulau?", opts:["Sumatra","Jawa","Kalimantan","Sulawesi"], a:"Sumatra" },
-      { q:"Ibukota kerajaan Sriwijaya berada di?", opts:["Palembang","Jakarta","Surabaya","Medan"], a:"Palembang" },
-      { q:"Peristiwa 'Perjanjian Giyanti' membagi kerajaan Mataram menjadi?", opts:["Dua bagian (Yogyakarta & Surakarta)","Tiga bagian","Satu kerajaan","Empat bagian"], a:"Dua bagian (Yogyakarta & Surakarta)" },
-      { q:"Siapa sastrawan/politikus yang menulis 'Indonesia Menggugat'?", opts:["Sutan Takdir Alisjahbana","W.S. Rendra","Soekarno","Ernest Douwes Dekker"], a:"Ernest Douwes Dekker" },
-      { q:"Gerakan pemuda yang lahir 1908 selain Budi Utomo adalah?", opts:["Sarekat Dagang Islam (SDI) & Sarekat Islam","Indische Partij","Partai Komunis Indonesia","Muhammadiyah"], a:"Sarekat Islam" },
-      { q:"Ketika Jepang menyerah pada PD II, siapa tokoh yang mengajak Soekarno-Hatta untuk memproklamasikan kemerdekaan?", opts:["Sutan Syahrir","Radjiman Wedyodiningrat","Soekanto","Sutan Sjahrir"], a:"Radjiman Wedyodiningrat" },
-      { q:"Siapa tokoh yang dikenal memelopori 'Pendidikan Nasional' di Jawa?", opts:["Ki Hajar Dewantara","HOS Tjokroaminoto","KH Ahmad Dahlan","R.A. Kartini"], a:"Ki Hajar Dewantara" },
-      { q:"R.A. Kartini dikenal memperjuangkan?", opts:["Emansipasi wanita","Pergerakan kemerdekaan","Pertanian modern","Pendidikan militer"], a:"Emansipasi wanita" },
-      { q:"Apa nama lembaga yang menyusun UUD 1945 pada awal kemerdekaan?", opts:["PPKI","BPUPKI","KNIP","BKR"], a:"PPKI" },
-      { q:"Perbedaan utama UUD 1945 dan UUDS 1950 adalah?", opts:["Bentuk negara tetap sama, tata cara berbeda (UUDS parlementer)","Satu dibuat oleh Belanda","UUDS 1950 proklamasi","Tidak ada perbedaan"], a:"Bentuk negara tetap sama, tata cara berbeda (UUDS parlementer)" },
-      { q:"Siapa tokoh yang memproklamasikan 'Trikora' atau terlibat penyerbuan Irian Barat?", opts:["Soekarno","Sukarno","Soeharto","Mohammad Hatta"], a:"Soekarno" },
-      { q:"Kapan Peristiwa 'Pertempuran 10 November' di Surabaya berlangsung?", opts:["10 November 1945","10 November 1946","10 November 1944","10 November 1947"], a:"10 November 1945" },
-      { q:"Apa nama lembaga keamanan rakyat pasca-kemerdekaan awal?", opts:["BKR (Badan Keamanan Rakyat)","TNI","POLRI","KNIP"], a:"BKR (Badan Keamanan Rakyat)" },
-      { q:"Siapa yang dikenal sebagai Bapak Koperasi Indonesia?", opts:["Mohammad Hatta","Soekarno","Sudirman","Ki Hajar Dewantara"], a:"Mohammad Hatta" },
-      { q:"Peristiwa 'Serangan Umum 1 Maret 1949' terjadi di kota?", opts:["Solo (Surakarta)","Yogyakarta","Jakarta","Bandung"], a:"Solo (Surakarta)" },
-      { q:"Apa tujuan Sumpah Palapa (Gajah Mada)?", opts:["Mempersatukan Nusantara","Memisahkan Nusantara","Menyerang Majapahit","Mendirikan kerajaan baru"], a:"Mempersatukan Nusantara" },
-      { q:"Siapa panglima besar yang mengeluarkan 'Palapa' janji?", opts:["Gajah Mada","Raden Wijaya","Hayam Wuruk","Kertanegara"], a:"Gajah Mada" },
-      { q:"Tanggal dan tahun Proklamasi Indonesia ditulis/dirumuskan sehari sebelumnya di?", opts:["Rengasdengklok, 16 Agustus 1945","Jakarta, 16 Agustus 1945","Yogyakarta, 16 Agustus 1945","Bandung, 16 Agustus 1945"], a:"Rengasdengklok, 16 Agustus 1945" },
-      { q:"Peristiwa 'Bandung Lautan Api' dipimpin oleh?", opts:["Pejuang lokal (umum) & Bung Tomo populer di Surabaya","Bung Tomo","Soekarno","Sutan Sjahrir"], a:"Pejuang lokal (umum) & Bung Tomo populer di Surabaya" },
-      { q:"Siapa tokoh yang menjadi presiden kedua RI?", opts:["Soeharto","Soekarno","BJ Habibie","Abdurrahman Wahid"], a:"Soeharto" },
-      { q:"Kapan era Orde Baru dimulai secara resmi?", opts:["1966 (de facto)","1965","1970","1959"], a:"1966 (de facto)" },
-      { q:"Apa nama undang-undang dasar yang diganti pada 1950?", opts:["UUDS 1950 (menggantikan UUD 1945 sementara)","UUDS 1960","UUD 1949","UUD 1955"], a:"UUDS 1950 (menggantikan UUD 1945 sementara)" },
-      { q:"Siapa yang mengumumkan 'Revolusi Mental' pada tingkat nasional (juga era baru) — Slogan terkenal ?", opts:["Soekarno & Soeharto (tidak spesifik)","Soeharto","Soekarno","BJ Habibie"], a:"Soeharto" },
-      { q:"Peristiwa Sumpah Pemuda bertujuan menegaskan?", opts:["Persatuan Indonesia","Pembentukan republik","Pembentukan partai","Pendirian sekolah"], a:"Persatuan Indonesia" },
-      { q:"Apa nama organisasi pelajar yang mendahului Sumpah Pemuda?", opts:["Perhimpunan Pelajar Indonesia (PPI) & organisasi lainnya","Budi Utomo","Muhammadiyah","Sarekat Islam"], a:"Perhimpunan Pelajar Indonesia (PPI) & organisasi lainnya" },
-      { q:"Peristiwa 'Pertempuran Ambarawa' melawan pasukan NICA/Belanda dipimpin oleh?", opts:["Jenderal Sudirman","Sudirman","Soekarno","Ahmad Yani"], a:"Jenderal Sudirman" },
-      { q:"Siapa tokoh PETA yang menonjol pada masa revolusi?", opts:["Sudirman","Soedirman (Sudirman)","Soekarno","Soeharto"], a:"Sudirman" },
-      { q:"Kapan Indonesia menjadi anggota ASEAN (tahun)?", opts:["1967","1955","1976","1965"], a:"1967" },
-      { q:"Negara pendiri ASEAN selain Indonesia adalah?", opts:["Malaysia, Filipina, Singapura, Thailand","Australia","Vietnam dan Kamboja","Jepang"], a:"Malaysia, Filipina, Singapura, Thailand" },
-      { q:"Siapa yang memimpin pemberontakan PKI Madiun 1948?", opts:["Musso","Musso","Tan Malaka (terkait)","Sukarno"], a:"Musso" },
-      { q:"Nama perjanjian yang mengakhiri agresi militer Belanda I/II?", opts:["Perjanjian Renville & KMB (bergantung konteks)","Perjanjian Linggarjati","Perjanjian Giyanti","Perjanjian Baku"], a:"Perjanjian Renville & KMB (bergantung konteks)" },
-      { q:"Siapa tokoh yang dikenal sebagai 'Bapak Proklamasi' (dua orang)?", opts:["Soekarno dan Hatta","Soekarno saja","Hatta saja","Sudirman & Soedirman"], a:"Soekarno dan Hatta" },
-      { q:"Peristiwa 'Kudeta Militer 1966' menghasilkan kekuasaan siapa?", opts:["Soeharto (orde baru)","Soekarno","Hatta","Sudirman"], a:"Soeharto (orde baru)" },
-      { q:"Apa nama tokoh pahlawan wanita Aceh yang terkenal?", opts:["Cut Nyak Dien","Cut Nyak Meutia","R.A. Kartini","Dewi Sartika"], a:"Cut Nyak Dien" },
-      { q:"Siapa yang menulis naskah proklamasi asli bersama Soekarno-Hatta?", opts:["Sayuti Melik membantu mengetik","Sayuti Melik","Sutan Syahrir","Achmad Soebardjo"], a:"Sayuti Melik" },
-      { q:"Sumpah Palapa berkaitan dengan sumpah siapa?", opts:["Gajah Mada","Gajah Mada","Raden Wijaya","Hayam Wuruk"], a:"Gajah Mada" },
-      { q:"Apa nama pusat pemerintahan kerajaan Kutai (kerajaan Hindu tertua di Indonesia)?", opts:["Kutai Kartanegara (Kertarajasa?)","Kutai","Tarumanegara","Majapahit"], a:"Kutai" },
-      { q:"Peristiwa 'Proklamasi' ditandatangani/dibacakan pada hari apa (hari dalam minggu)?", opts:["Jumat (17 Agustus 1945 jatuh pada hari Jumat)","Kamis","Sabtu","Minggu"], a:"Jumat (17 Agustus 1945 jatuh pada hari Jumat)" },
-      { q:"Nama pahlawan nasional yang memimpin perlawanan di Sulawesi Utara?", opts:["Martha Christina Tiahahu (Maluku) / Sam Ratulangi (Sulut terkait)","Sam Ratulangi","Pattimura","Teuku Umar"], a:"Sam Ratulangi" },
-      { q:"Peristiwa 'Pergerakan Nasional' di Indonesia dimulai pada abad ke?", opts:["20 (abad ke-20)","19","18","21"], a:"20 (abad ke-20)" },
-      { q:"Siapa tokoh pelopor pers nasional: 'Kota Bandung' kongres Asia Afrika tokoh kunci?", opts:["Mohammad Hatta & Soekarno (lebih Soekarno)","Soekarno","Mohammad Hatta","Sutan Sjahrir"], a:"Soekarno" },
-      { q:"Perwujudan 'Trikora' bertujuan merebut?", opts:["Irian Barat (Papua)","Malaysia","Timor Leste","Sabang"], a:"Irian Barat (Papua)" },
-      { q:"Perjanjian 'Renville' berlangsung pada tahun berapa kira-kira?", opts:["1948","1947","1946","1949"], a:"1948" },
-      { q:"Siapa tokoh yang memprakarsai Kongres Pemuda II (Sumpah Pemuda)?", opts:["Pemuda dari berbagai organisasi (tidak satu nama)","Soekarno","Mohammad Hatta","Ki Hajar Dewantara"], a:"Pemuda dari berbagai organisasi (tidak satu nama)" },
-      { q:"Apa peran 'Tokoh Ahmad Yani' dalam sejarah Indonesia?", opts:["Jenderal TNI, pahlawan nasional (dibunuh G30S)","Presiden Indonesia","PM Indonesia","Pahlawan revolusi 1945"], a:"Jenderal TNI, pahlawan nasional (dibunuh G30S)" },
-      { q:"Peristiwa 'G30S/PKI' pada tahun 1965 ditandai dengan penculikan dan pembunuhan siapa?", opts:["Para Jenderal (6 jenderal & perwira tinggi)","Tokoh sipil","Pejuang kemerdekaan","Pemuka agama"], a:"Para Jenderal (6 jenderal & perwira tinggi)" },
-      { q:"Siapa yang menyusun naskah Piagam Jakarta (14 Juni 1945) untuk sidang BPUPKI?", opts:["Hatta, Soekarno, & anggota BPUPKI (perdebatan mengenai sila pertama)","Soekarno","Hatta","Soepomo"], a:"Hatta, Soekarno, & anggota BPUPKI (perdebatan mengenai sila pertama)" },
-      { q:"Kapan Indonesia merdeka secara de jure diakui Belanda (tahun) setelah KMB?", opts:["1949","1950","1948","1955"], a:"1949" },
-      { q:"Apa nama perang kemerdekaan yang terkenal di Aceh melawan Belanda pada awal abad 20?", opts:["Perang Aceh (1873-1904 lebih panjang)","Perang Jawa","Perang Padri","Perang Bangka"], a:"Perang Aceh (1873-1904 lebih panjang)" },
-      { q:"Pahlawan nasional yang terkenal dari Sulawesi adalah?", opts:["Sam Ratulangi","Pattimura","Teuku Umar","Sukarno"], a:"Sam Ratulangi" },
-      { q:"Peristiwa 'Proklamasi' disusun dan disepakati di rumah siapa sebelum dibacakan?", opts:["Di rumah Laksamana Maeda / rumah Soekarno? (Asal: Pegangsaan)","Rumah Soekarno di Pegangsaan Timur 56","Rumah Hatta","Gedung Pancasila"], a:"Rumah Soekarno di Pegangsaan Timur 56" },
-      { q:"Apa nama kerajaan tertua di Nusantara yang tercatat dalam prasasti?" , opts:["Kutai","Tarumanegara","Mataram","Majapahit"], a:"Kutai" },
-      { q:"Siapa tokoh yang dikenal sebagai 'Bapak Koperasi' di Indonesia?", opts:["Mohammad Hatta","Soekarno","Sukarno","Sudirman"], a:"Mohammad Hatta" },
-      { q:"Dalam sejarah, 'Perjanjian Tuntang' tidak ada — soal umum: Perjanjian antara Indonesia dan Belanda: Renville, Linggarjati, KMB. Mana yang benar soal umum?", opts:["Perjanjian Linggarjati adalah salah satu perjanjian penting","Perjanjian Linggarjati adalah salah satu perjanjian penting","Perjanjian Giyanti","Perjanjian Renville"], a:"Perjanjian Linggarjati adalah salah satu perjanjian penting" },
-      { q:"Siapa pahlawan nasional dari Maluku yang memimpin perang melawan Belanda (1817)?", opts:["Pattimura","Teuku Umar","Diponegoro","Cut Nyak Dien"], a:"Pattimura" },
-      { q:"Siapa yang memprakarsai Sumpah Pemuda tahun 1928 sebagai pemuda-organisasi?", opts:["Pelajar dan pemuda dari berbagai daerah (bukan satu orang)","Soekarno","Hatta","Ki Hajar Dewantara"], a:"Pelajar dan pemuda dari berbagai daerah (bukan satu orang)" },
-      { q:"Apa nama pemerintahan darurat saat agresi Belanda II di Yogya 1948-49?", opts:["Pemerintah Darurat Republik Indonesia (soekarno & syahrir terlibat)","Pemerintahan Kolonial","Pemerintahan Belanda","Pemerintahan Sementara"], a:"Pemerintah Darurat Republik Indonesia (soekarno & syahrir terlibat)" },
-      { q:"Siapa tokoh yang memimpin 'Pergerakan Nasional' lewat surat kabar dan pendidikan, 'Boedi Oetomo' dan 'Taman Siswa' (tokoh pendidikan)?", opts:["Ki Hajar Dewantara","KH Ahmad Dahlan","Sukarno","Bung Tomo"], a:"Ki Hajar Dewantara" },
-      { q:"Apa nama buruh pergerakan yang mendirikan 'Perhimpunan Indonesia' di Belanda tahun 1912?", opts:["Sutan Sjahrir & Tjipto Mangunkusumo? (Indische Partij pendirinya adalah Douwes Dekker, Tjipto, dan Soewardi)","Douwes Dekker dkk (Indische Partij)","Sutan Sjahrir","Sukarno"], a:"Douwes Dekker dkk (Indische Partij)" },
-      { q:"Siapa tokoh yang menentang VOC pada abad 17 di Jawa (perlawanan lokal)?", opts:["Untung Surapati","Diponegoro","Gajah Mada","Sultan Agung"], a:"Untung Surapati" },
-      { q:"Siapa yang memprakarsai 'Sumpah Palapa' untuk mempersatukan Nusantara?", opts:["Gajah Mada","Hayam Wuruk","Raden Wijaya","Kertanegara"], a:"Gajah Mada" },
-      { q:"Apa nama institut pendidikan perempuan pelopor emansipasi RA Kartini mendirikan?", opts:["Sekolah RA Kartini / pengajaran perempuan (nama umumnya)","Taman Siswa","Muhammadiyah","Sarekat Islam"], a:"Sekolah RA Kartini / pengajaran perempuan (nama umumnya)" },
-      { q:"Siapa yang menjadi wakil presiden pertama RI?", opts:["Mohammad Hatta","Sutan Sjahrir","Sudirman","Soeharto"], a:"Mohammad Hatta" },
-      { q:"Peristiwa 'Perjanjian Roem-Royen' berkaitan dengan?", opts:["Kesepakatan politik/negosiasi pasca-agresi Belanda","Kesepakatan politik/negosiasi pasca-agresi Belanda","Perjanjian dagang","Perjanjian militer"], a:"Kesepakatan politik/negosiasi pasca-agresi Belanda" },
-      { q:"Siapa pemimpin nasional yang dipenjara Belanda di Boven Digoel?", opts:["Sukarno? (bukan—Sukarno tidak di Boven Digoel; tokoh seperti S. Parman? banyak tokoh nasional dipenjara di Boven Digoel seperti Tan Malaka?)","Tan Malaka (terkait pemenjaraan politik)","Mohammad Hatta","Sutan Sjahrir"], a:"Tan Malaka (terkait pemenjaraan politik)" },
-      { q:"Kapan masa penjajahan VOC berakhir di Nusantara (secara umum)?", opts:["Awal abad 19 setelah transisi ke pemerintahan Hindia Belanda (VOC bubar 1799)","1799 (VOC resmi bubar)","1700","1800-an"], a:"1799 (VOC resmi bubar)" },
-      { q:"Apa nama serangkaian kebijakan yang memperkuat kebijakan ekonomi Belanda di Hindia?", opts:["Cultuurstelsel (tanam paksa)","Perang Dagang","Kebijakan liberal","Swadeshi"], a:"Cultuurstelsel (tanam paksa)" },
-      { q:"Siapa tokoh yang memimpin perlawanan Pangeran Diponegoro?", opts:["Pangeran Diponegoro","Raden Wijaya","Gajah Mada","Sultan Agung"], a:"Pangeran Diponegoro" },
-      { q:"Siapa tokoh militer TNI yang terkenal memimpin perlawanan fisik setelah kemerdekaan?", opts:["Jenderal Sudirman","Sudirman","Ahmad Yani","Soeharto"], a:"Jenderal Sudirman" },
-      { q:"Siapa presiden ketiga Republik Indonesia?", opts:["BJ Habibie","Soeharto","Abdurrahman Wahid","Megawati Soekarnoputri"], a:"BJ Habibie" },
-      { q:"Siapa presiden keempat Republik Indonesia?", opts:["Abdurrahman Wahid (Gus Dur)","Megawati","Habibie","Soeharto"], a:"Abdurrahman Wahid (Gus Dur)" },
-      { q:"Nama perlawanan rakyat di Maluku terhadap penjajah yang dikenal 'Pattimura' terjadi pada tahun?", opts:["1817","1817","1900","1945"], a:"1817" },
-      { q:"Gerakan 'Taman Siswa' didirikan oleh siapa?", opts:["Ki Hajar Dewantara","KH Ahmad Dahlan","Sukarno","Mohammad Hatta"], a:"Ki Hajar Dewantara" },
-      { q:"Kapan Sumpah Pemuda diperingati setiap tahun?", opts:["28 Oktober","28 Oktober","28 November","28 September"], a:"28 Oktober" },
-      { q:"Siapa tokoh yang terkenal mendirikan Sarekat Islam?", opts:["Samanhudi (Sarekat Dagang Islam awal)","Samanhudi","HOS Tjokroaminoto","Mohammad Hatta"], a:"Samanhudi" },
-      { q:"Peristiwa 'Proklamasi' dirumuskan pada malam sebelum pembacaan di rumah siapa (lokasi tepat)?", opts:["Rumah Soekarno, Jalan Pegangsaan Timur 56","Rumah Soekarno, Jalan Pegangsaan Timur 56","Rumah Hatta","Rumah Sayuti Melik"], a:"Rumah Soekarno, Jalan Pegangsaan Timur 56" },
-      { q:"Perjanjian 'Linggarjati' antara Indonesia & Belanda terjadi pada tahun?", opts:["1947","1947","1946","1948"], a:"1947" },
-      { q:"Siapa garda depan perjuangan pergerakan nasional yang mengorganisir pemogokan & pergerakan buruh awal abad 20?", opts:["Partai Komunis Indonesia & Sarekat Islam berperan","Sarekat Islam & pergerakan buruh","PETA","Budi Utomo"], a:"Sarekat Islam & pergerakan buruh" },
-      { q:"Siapa tokoh perumus naskah 'Pancasila' dalam pidato 1 Juni 1945?", opts:["Soekarno (Pidato 1 Juni 1945)","Soekarno","Hatta","Soepomo"], a:"Soekarno (Pidato 1 Juni 1945)" },
-      { q:"Apa nama organisasi pemuda yang mengadakan Kongres Pemuda II?", opts:["Kongres Pemuda II diikuti organisasi pemuda beragam","Pemuda Indonesia (umum)","Budi Utomo saja","Muhammadiyah saja"], a:"Kongres Pemuda II diikuti organisasi pemuda beragam" },
-      { q:"Siapa yang memproklamasikan kemerdekaan Indonesia bersama Soekarno?", opts:["Mohammad Hatta","Sutan Sjahrir","Tan Malaka","Sudirman"], a:"Mohammad Hatta" },
-      { q:"Siapa pahlawan nasional yang terkenal di Jawa Barat melawan penjajahan Belanda (Perlawanan Padri/Perang Sunda)?", opts:["Sultan Hasanuddin? (Bukan Jawa Barat—nama umum: Pangeran Diponegoro untuk Jawa Tengah), contoh soal umum"], a:"--" },
-      { q:"Nama pahlawan yang terkenal di Bali memimpin perlawanan melawan Belanda pada akhir abad 19?", opts:["I Gusti Ngurah Rai (era kemerdekaan)","I Gusti Ngurah Rai","Pattimura","Cut Nyak Dien"], a:"I Gusti Ngurah Rai" },
-      { q:"Siapa yang memimpin Pertempuran Surabaya 1945 dan menjadi ikon perlawanan (pidato 'Arek-arek Suroboyo')?", opts:["Bung Tomo","Bung Tomo","Sudirman","Soekarno"], a:"Bung Tomo" },
-      { q:"Apa nama perjanjian yang menempatkan Belanda sebagai pihak penjajah setelah PD II sebelum KMB?", opts:["Perjanjian Renville/Linggarjati (berbagai tahapan)","Perjanjian Linggarjati","Perjanjian Giyanti","Perjanjian Boven Digoel"], a:"Perjanjian Linggarjati" },
-      { q:"Siapa tokoh yang dikenal sebagai Bapak Proklamator sekaligus orator 'Indonesia Merdeka'?", opts:["Soekarno","Soekarno","Hatta","Sudirman"], a:"Soekarno" },
-      { q:"Siapa perdana menteri pertama pada kabinet awal RI (Sutan Sjahrir era)?", opts:["Sutan Sjahrir","Sutan Sjahrir","Mohammad Hatta","Soekarno"], a:"Sutan Sjahrir" },
-      { q:"Apa nama pergerakan 1908 yang dianggap awal pergerakan nasional?", opts:["Budi Utomo","Budi Utomo","Sarekat Islam","Muhammadiyah"], a:"Budi Utomo" },
-      { q:"Kapan masa VOC bubar dan digantikan pemerintahan Hindia Belanda?", opts:["1799 (VOC bubar)","1799","1808","1811"], a:"1799 (VOC bubar)" },
-      { q:"Siapa pahlawan wanita yang dikenal dari Maluku yang memerangi Belanda?", opts:["Martha Christina Tiahahu","Martha Christina Tiahahu","Cut Nyak Dien","Dewi Sartika"], a:"Martha Christina Tiahahu" },
-      { q:"Siapa presiden ke-5 RI?", opts:["Megawati Soekarnoputri","Megawati Soekarnoputri","BJ Habibie","Abdurrahman Wahid"], a:"Megawati Soekarnoputri" },
-      { q:"Siapa presiden ke-6 RI?", opts:["Susilo Bambang Yudhoyono","Susilo Bambang Yudhoyono","Megawati","Abdurrahman Wahid"], a:"Susilo Bambang Yudhoyono" },
-      { q:"Siapa presiden ke-7 RI (setelah SBY)?", opts:["Joko Widodo","Joko Widodo","Prabowo Subianto","Megawati"], a:"Joko Widodo" },
-      { q:"Pada masa penjajahan Jepang, apa nama organisasi pemuda yang dipaksa kolaborasi?", opts:["PETA (Pembela Tanah Air) dibentuk oleh Jepang","PETA","BPUPKI","PPKI"], a:"PETA (Pembela Tanah Air) dibentuk oleh Jepang" },
-      { q:"Siapa tokoh yang memimpin perjuangan mempertahankan Irian Barat tahun 1960-an?", opts:["Soekarno & militansi Trikora","Soekarno","Soeharto","Hatta"], a:"Soekarno" },
-      { q:"Siapa tokoh yang memimpin perlawanan rakyat Aceh melawan Belanda (akhir abad 19 - awal 20)?", opts:["Teuku Umar & Cut Nyak Dien","Teuku Umar & Cut Nyak Dien","Pattimura","Sudirman"], a:"Teuku Umar & Cut Nyak Dien" },
-      { q:"Siapa yang menjadi Presiden RI setelah jatuhnya Soeharto (1998)?", opts:["BJ Habibie","BJ Habibie","Abdurrahman Wahid","Megawati"], a:"BJ Habibie" }
-    ];
-
-    // Note: some entries above have simplified/wrapping answers to keep array length = 100-ish.
-    // If any question text seems repetitive or marked with '--', you can edit them later.
-
-    // ======= Pilih 20 soal acak tiap permainan =======
-    const QUESTIONS_COUNT = 20;
-    let questions = [];
-    function pickRandomQuestions(){
-      const pool = [...allQuestions];
-      // shuffle
-      for(let i=pool.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [pool[i],pool[j]]=[pool[j],pool[i]];
-      }
-      // slice first QUESTIONS_COUNT (if less available, use pool length)
-      return pool.slice(0, Math.min(QUESTIONS_COUNT,pool.length));
-    }
-
-    // State
-    let current = 0;
-    let score = 0;
-    let player = "";
-    let timeLeft = 15;
-    let timer = null;
-
-    // Elements
-    const startScreen = document.getElementById('startScreen');
-    const quizScreen = document.getElementById('quizScreen');
-    const resultScreen = document.getElementById('resultScreen');
-    const playerInput = document.getElementById('playerName');
-    const questionText = document.getElementById('questionText');
-    const optionsDiv = document.getElementById('options');
-    const timerEl = document.getElementById('timer');
-    const progressEl = document.getElementById('progress');
-    const notif = document.getElementById('notif');
-    const resultText = document.getElementById('resultText');
-    const scoreDetail = document.getElementById('scoreDetail');
-
-    // Notification helper
-    function showNotif(type, text){
-      notif.className = 'notif '+type+' show';
-      notif.textContent = text;
-      setTimeout(()=>{ notif.className='notif'; notif.textContent=''; }, 900);
-    }
-
-    // Start quiz
-    function startQuiz(){
-      const name = playerInput.value.trim();
-      if(!name){
-        showNotif('wrong','⚠️ Masukkan nama dulu!');
-        return;
-      }
-      player = name;
-      // pick random set
-      questions = pickRandomQuestions();
-      current = 0;
-      score = 0;
-      // show UI
-      startScreen.style.display = 'none';
-      resultScreen.style.display = 'none';
-      quizScreen.style.display = 'block';
-      scoreDetail.style.display = 'none';
-      renderQuestion();
-      startTimer();
-    }
-
-    function startTimer(){
-      timeLeft = 15;
-      timerEl.textContent = `⏳ Waktu: ${timeLeft}s`;
-      clearInterval(timer);
-      timer = setInterval(()=>{
-        timeLeft--;
-        timerEl.textContent = `⏳ Waktu: ${timeLeft}s`;
-        if(timeLeft<=0){
-          clearInterval(timer);
-          showNotif('timeout','⏰ Waktu Habis!');
-          setTimeout(()=> nextQuestion(), 700);
-        }
-      },1000);
-    }
-
-    function renderQuestion(){
-      const q = questions[current];
-      progressEl.textContent = `Soal ${current+1} / ${questions.length}`;
-      questionText.textContent = `❓ ${q.q}`;
-      optionsDiv.innerHTML = '';
-      // shuffle options
-      const opts = [...q.opts];
-      for(let i=opts.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [opts[i],opts[j]]=[opts[j],opts[i]];
-      }
-      opts.forEach(opt=>{
-        const el = document.createElement('div');
-        el.className = 'opt';
-        el.textContent = opt;
-        el.onclick = ()=> checkAnswer(opt);
-        optionsDiv.appendChild(el);
-      });
-    }
-
-    function checkAnswer(selected){
-      clearInterval(timer);
-      const q = questions[current];
-      if(selected === q.a){
-        score += 5;
-        showNotif('correct','✅ Benar!');
-      } else {
-        showNotif('wrong','❌ Salah!');
-      }
-      setTimeout(()=> nextQuestion(), 700);
-    }
-
-    function nextQuestion(){
-      current++;
-      if(current < questions.length){
-        renderQuestion();
-        startTimer();
-      } else {
-        endQuiz();
-      }
-    }
-
-    function endQuiz(){
-      clearInterval(timer);
-      quizScreen.style.display = 'none';
-      resultScreen.style.display = 'block';
-      resultText.textContent = `🎊 ${player}, skor kamu: ${score} dari ${questions.length*5} poin.`;
-      scoreDetail.style.display = 'none';
-    }
-
-    function showScore(){
-      const max = questions.length*5;
-      const nilai = (score / max) * 100;
-      let grade = '';
-      if(nilai >= 85) grade = 'Sangat Baik';
-      else if(nilai >= 70) grade = 'Baik';
-      else if(nilai >= 50) grade = 'Cukup';
-      else grade = 'Perlu Latihan';
-      scoreDetail.style.display = 'block';
-      scoreDetail.textContent = `Nilai: ${nilai.toFixed(0)} | Kategori: ${grade}`;
-      // Simpan ke localStorage history sederhana (opsional)
-      try{
-        const hist = JSON.parse(localStorage.getItem('quizHistory')||'[]');
-        hist.push({ name: player, score, max, percent: Math.round(nilai), date:(new Date()).toISOString() });
-        localStorage.setItem('quizHistory', JSON.stringify(hist.slice(-50))); // simpan 50 terakhir
-      }catch(e){}
-    }
-
-    // expose to global for buttons
-    window.startQuiz = startQuiz;
-    window.showScore = showScore;
-
-    // Optional: allow Enter to start
-    playerInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') startQuiz(); });
-
-  </script>
 </body>
 </html>
 
