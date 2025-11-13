@@ -116,6 +116,7 @@
       { question: "Siapa yang menulis naskah teks proklamasi?", options: ["Soekarno", "Hatta", "Sudirman", "Sayuti Melik"], answer: "Soekarno" },
       { question: "Apa tujuan Kongres Pemuda II?", options: ["Mendirikan partai politik", "Memperjuangkan kemerdekaan", "Menegaskan persatuan Indonesia", "Membentuk organisasi baru"], answer: "Menegaskan persatuan Indonesia" },
       { question: "Siapa pencetus semboyan Bhinneka Tunggal Ika?", options: ["Mpu Tantular", "Gajah Mada", "Hayam Wuruk", "Mpu Prapanca"], answer: "Mpu Tantular" },
+      // 🔽 Tambahan 10 soal baru
       { question: "Apa nama kerajaan Hindu pertama di Indonesia?", options: ["Kutai", "Sriwijaya", "Majapahit", "Tarumanegara"], answer: "Kutai" },
       { question: "Siapa pendiri Kerajaan Majapahit?", options: ["Raden Wijaya", "Gajah Mada", "Hayam Wuruk", "Kertanegara"], answer: "Raden Wijaya" },
       { question: "Apa isi utama dari Sumpah Palapa?", options: ["Janji Gajah Mada mempersatukan Nusantara", "Perintah menyerang Majapahit", "Deklarasi kemerdekaan", "Perjanjian damai dengan Sriwijaya"], answer: "Janji Gajah Mada mempersatukan Nusantara" },
@@ -128,7 +129,7 @@
       { question: "Siapa presiden kedua Republik Indonesia?", options: ["Soeharto", "Soekarno", "BJ Habibie", "Abdurrahman Wahid"], answer: "Soeharto" }
     ];
 
-    // 🔀 Acak urutan soal setiap permainan dimulai
+    // 🔀 Acak urutan soal
     questions.sort(() => Math.random() - 0.5);
 
     let currentQuestion = 0;
@@ -141,7 +142,7 @@
       const listDiv = document.getElementById("highScoreList");
       const players = JSON.parse(localStorage.getItem("players")) || [];
       if (players.length === 0) {
-        listDiv.innerHTML = "<h4>Belum ada pemain</h4>";
+        listDiv.innerHTML = "<h4>📜 Belum ada pemain</h4>";
         return;
       }
       let html = "<h4>📜 Daftar Pemain</h4><ul>";
@@ -160,6 +161,12 @@
         return;
       }
       player = nameInput;
+
+      const players = JSON.parse(localStorage.getItem("players")) || [];
+      players.push({ name: player, score: 0 });
+      localStorage.setItem("players", JSON.stringify(players));
+      showPlayerList();
+
       document.getElementById("startScreen").style.display = "none";
       document.getElementById("quizScreen").style.display = "block";
       showQuestion();
@@ -224,19 +231,21 @@
       document.getElementById("resultText").textContent =
         `${player}, skor kamu adalah ${score} dari ${questions.length * 10} poin.`;
 
-      const players = JSON.parse(localStorage.getItem("players")) || [];
-      players.push({ name: player, score: score });
-      localStorage.setItem("players", JSON.stringify(players));
-
-      const highScore = localStorage.getItem("highScore") || 0;
-      if (score > highScore) {
-        localStorage.setItem("highScore", score);
-        document.getElementById("highScoreText").textContent = "🏆 Selamat! Kamu mencetak skor tertinggi!";
+      const highScore = JSON.parse(localStorage.getItem("highScore")) || { name: "-", score: 0 };
+      if (score > highScore.score) {
+        localStorage.setItem("highScore", JSON.stringify({ name: player, score: score }));
+        document.getElementById("highScoreText").textContent = `🏆 Selamat ${player}! Kamu mencetak skor tertinggi!`;
       } else {
-        document.getElementById("highScoreText").textContent = `Skor tertinggi saat ini: ${highScore}`;
+        document.getElementById("highScoreText").textContent =
+          `Skor tertinggi saat ini: ${highScore.name} - ${highScore.score} poin.`;
       }
+
+      // 🔥 Hapus nama pemain dari daftar setelah selesai
+      const players = JSON.parse(localStorage.getItem("players")) || [];
+      const updated = players.filter(p => p.name !== player);
+      localStorage.setItem("players", JSON.stringify(updated));
+      showPlayerList();
     }
   </script>
 </body>
 </html>
-
