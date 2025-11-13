@@ -99,15 +99,15 @@
     <h2>Selamat Datang di 🌺 Kuis Sejarah Indonesia 🎯</h2>
     <p>Masukkan nama kamu untuk memulai:</p>
     <input type="text" id="playerName" placeholder="Nama kamu" />
-    <button onclick="startQuiz()">Mulai Kuis</button>
+    <button onclick="startQuiz()">🚀 Mulai Kuis</button>
 
     <div id="highScoreList"></div>
     <!-- Tombol reset daftar pemain -->
-    <button id="resetBtn" onclick="resetPlayers()">Reset Daftar Pemain</button>
+    <button id="resetBtn" onclick="resetPlayers()">♻️ Reset Daftar Pemain</button>
   </div>
 
   <div class="container" id="quizScreen" style="display:none;">
-    <div id="timer">Waktu: 15 detik</div>
+    <div id="timer">⏳ Waktu: 15 detik</div>
     <h3 id="questionText"></h3>
     <div id="options"></div>
   </div>
@@ -116,7 +116,7 @@
     <h2>Hasil Kuis 🎉</h2>
     <p id="resultText"></p>
     <p id="highScoreText"></p>
-    <button onclick="location.reload()">Main Lagi</button>
+    <button onclick="location.reload()">🔄 Main Lagi</button>
   </div>
 
   <script>
@@ -159,9 +159,10 @@
         listDiv.innerHTML = "<h4>📜 Belum ada pemain</h4>";
         return;
       }
-      let html = "<h4>📜 Daftar Pemain</h4><ul>";
+      let html = "<h4>📜 Daftar Pemain Terakhir</h4><ul>";
       players.slice(-5).reverse().forEach(p => {
-        html += `<li>${p.name} - ${p.score} poin</li>`;
+        html += `👤 ${p.name} - ⭐ ${p.score} poin`;
+        html += "<br>";
       });
       html += "</ul>";
       listDiv.innerHTML = html;
@@ -176,7 +177,7 @@
     function startQuiz() {
       const nameInput = document.getElementById("playerName").value.trim();
       if (nameInput === "") {
-        alert("Masukkan nama dulu ya!");
+        alert("⚠️ Masukkan nama dulu ya!");
         return;
       }
       player = nameInput;
@@ -189,14 +190,14 @@
 
     function startTimer() {
       timeLeft = 15;
-      document.getElementById("timer").textContent = `Waktu: ${timeLeft} detik`;
+      document.getElementById("timer").textContent = `⏳ Waktu: ${timeLeft} detik`;
       clearInterval(timer);
       timer = setInterval(() => {
         timeLeft--;
-        document.getElementById("timer").textContent = `Waktu: ${timeLeft} detik`;
+        document.getElementById("timer").textContent = `⏳ Waktu: ${timeLeft} detik`;
         if (timeLeft <= 0) {
           clearInterval(timer);
-          alert("Waktu habis!");
+          alert("⌛ Waktu habis!");
           nextQuestion();
         }
       }, 1000);
@@ -204,7 +205,7 @@
 
     function showQuestion() {
       const q = questions[currentQuestion];
-      document.getElementById("questionText").textContent = q.question;
+      document.getElementById("questionText").textContent = `❓ ${q.question}`;
 
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
@@ -214,7 +215,7 @@
 
       shuffledOptions.forEach(option => {
         const btn = document.createElement("div");
-        btn.textContent = option;
+        btn.textContent = `👉 ${option}`;
         btn.classList.add("option");
         btn.onclick = () => checkAnswer(option);
         optionsDiv.appendChild(btn);
@@ -225,9 +226,9 @@
       clearInterval(timer);
       if (selected === questions[currentQuestion].answer) {
         score += 5; // 🎯 Tiap soal = 5 poin (20 soal = 100 poin total)
-        alert("Benar 🎉");
+        alert("✅ Benar 🎉");
       } else {
-        alert("Salah 😅");
+        alert("❌ Salah 😅");
       }
       nextQuestion();
     }
@@ -247,7 +248,7 @@
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("resultScreen").style.display = "block";
       document.getElementById("resultText").textContent =
-        `${player}, skor kamu adalah ${score} dari 100 poin.`;
+        `🎊 ${player}, skor kamu adalah ${score} dari 100 poin.`;
 
       const highScore = JSON.parse(localStorage.getItem("highScore")) || { name: "-", score: 0 };
       if (score > highScore.score) {
@@ -255,15 +256,17 @@
         document.getElementById("highScoreText").textContent = `🏆 Selamat ${player}! Kamu mencetak skor tertinggi!`;
       } else {
         document.getElementById("highScoreText").textContent =
-          `Skor tertinggi saat ini: ${highScore.name} - ${highScore.score} poin.`;
+          `🥇 Skor tertinggi saat ini: ${highScore.name} - ${highScore.score} poin.`;
       }
 
-      // 🔥 Hapus nama pemain dari daftar setelah selesai
+      // 🔥 Simpan nama pemain dan skor ke daftar pemain
       const players = JSON.parse(localStorage.getItem("players")) || [];
-      const updated = players.filter(p => p.name !== player);
-      localStorage.setItem("players", JSON.stringify(updated));
+      players.push({ name: player, score: score });
+      localStorage.setItem("players", JSON.stringify(players));
+
       showPlayerList();
     }
   </script>
 </body>
 </html>
+
