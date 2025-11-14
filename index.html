@@ -214,17 +214,12 @@
         <input name="player" id="playerName" placeholder="Nama kamu..." autocomplete="off" />
         <div class="controls">
           <button id="startBtn" class="btn primary" onclick="startQuiz()">🚀 Mulai Kuis</button>
-          <button class="btn" onclick="toggleSettings()">⚙️ Pengaturan</button>
         </div>
 
         <div id="settings" style="display:none;margin-top:12px;text-align:left;color:var(--muted)">
           <label style="display:block;margin-bottom:8px"><input type="checkbox" id="shufflePool" checked /> Acak pool soal tiap game</label>
           <label style="display:block;margin-bottom:8px">Jumlah soal tiap game:
             <select id="perGame" style="margin-left:8px">
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20" selected>20</option>
-              <option value="30">30</option>
             </select>
           </label>
         </div>
