@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -18,7 +17,7 @@
       --danger:#ff6b6b;
       --warning:#f1c40f;
       --card-shadow: rgba(0,0,0,0.75);
-      --line: var(--ink); /* DIUBAH: Garis menjadi putih solid */
+      --line: rgba(255,255,255,0.5); /* MODIFIKASI: Ditingkatkan opasitasnya dari 0.12 menjadi 0.5 */
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -45,11 +44,11 @@
       border-radius:12px;
       padding:26px;
       box-shadow: 0 20px 60px var(--card-shadow);
-      border:6px solid var(--ink); /* DIUBAH: Bingkai kartu menjadi putih solid */
+      border:6px solid rgba(255,255,255,0.04);
       overflow:visible;
       background-image:
         linear-gradient(transparent, rgba(255,255,255,0.01)),
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0 1px, transparent 1px 40px);
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 40px); /* MODIFIKASI: Ditingkatkan opasitas garis dari 0.01 menjadi 0.06 */
     }
 
     /* header */
@@ -127,7 +126,8 @@
       padding:8px 10px;
       border-radius:8px;
       border:1px solid var(--line);
-  __ .progress{ color:var(--muted); font-size:13px }
+    }
+    .progress{ color:var(--muted); font-size:13px }
 
     .question {
       font-size:18px;
@@ -275,8 +275,6 @@
       { q:"Sumpah Pemuda dikumandangkan pada tahun?", opts:["1928","1908","1945","1930"], a:"1928" },
       { q:"Siapa pahlawan wanita dari Jepara yang memperjuangkan pendidikan?", opts:["R.A. Kartini","Cut Nyak Dien","Cut Meutia","Martha Christina"], a:"R.A. Kartini" },
       { q:"Apa nama kerajaan Hindu tertua di Nusantara yang tercatat dalam prasasti?", opts:["Kutai","Majapahit","Sriwijaya","Mataram"], a:"Kutai" },
-.
-      { q:"Apa nama kerajaan Hindu tertua di Nusantara yang tercatat dalam prasasti?", opts:["Kutai","Majapahit","Sriwijaya","Mataram"], a:"Kutai" },
       { q:"Kerajaan Sriwijaya berpusat di pulau…", opts:["Sumatra","Jawa","Kalimantan","Sulawesi"], a:"Sumatra" },
       { q:"Apa nama lagu kebangsaan Indonesia?", opts:["Indonesia Raya","Hari Merdeka","Bendera Kita","Tanah Air"], a:"Indonesia Raya" },
       { q:"Peristiwa apa yang diperingati pada 28 Oktober?", opts:["Sumpah Pemuda","Hari Pahlawan","Hari Pendidikan","Hari Proklamasi"], a:"Sumpah Pemuda" },
@@ -301,13 +299,12 @@
       { q:"Siapa tokoh yang memimpin pemberontakan Madiun 1948?", opts:["Musso","Tan Malaka","Sutan Sjahrir","Hatta"], a:"Musso" },
       { q:"Trikora bertujuan merebut…", opts:["Irian Barat (Papua)","Malaya","Timor Leste","Sulawesi Utara"], a:"Irian Barat (Papua)" },
       { q:"Perbedaan UUD 1945 dan UUDS 1950: UUDS menerapkan…", opts:["Sistem parlementer","Sistem presidensial","Monarki","Federasi"], a:"Sistem parlementer" },
-.
       { q:"Apa nama sistem tanam paksa Belanda?", opts:["Cultuurstelsel","Tanam Paksu","Rotasi Tanam","Swadeshi"], a:"Cultuurstelsel" },
       { q:"Siapa yang mengetik naskah proklamasi?", opts:["Sayuti Melik","Sutan Sjahrir","Soepomo","Achmad Soebardjo"], a:"Sayuti Melik" },
       { q:"Siapa presiden kedua RI?", opts:["Soeharto","Soekarno","Habibie","Gus Dur"], a:"Soeharto" },
       { q:"Tanggal peringatan pertempuran Surabaya?", opts:["10 November","17 Agustus","28 Oktober","1 Juni"], a:"10 November" },
       { q:"Apa nama 'Taman Siswa' didirikan oleh?", opts:["Ki Hajar Dewantara","KH Ahmad Dahlan","Sukarno","Hatta"], a:"Ki Hajar Dewantara" },
-      { q:"Peristiwa Serangan Umum 1 Maret 1949 terjadi di…", opts:["Solo (Surakarta)","Yogyakarta","Jakarta","Medan"], a:"Solo (Surakarta)" },
+      { q:"Peristiwa Serangan Umum 1 Maret 1949 terjadi di…", opts:["Solo (Surakarta)","Yogyakarta","Jakarta","Medan"], a:"Yogyakarta" },
 
       /* --- SMK / lanjutan (51-80) --- */
       { q:"Siapa Perdana Menteri pertama Republik Indonesia (Kabinet Sjahrir)?", opts:["Sutan Sjahrir","Sukarno","Hatta","Soeharto"], a:"Sutan Sjahrir" },
@@ -315,7 +312,6 @@
       { q:"Perang Diponegoro (1825–1830) dipicu oleh…", opts:["Kebijakan pajak dan campur tangan Belanda","Pertikaian suku","Perang agama","Krisis pangan"], a:"Kebijakan pajak dan campur tangan Belanda" },
       { q:"Peran VOC di Nusantara pada abad ke-17 adalah…", opts:["Perdagangan rempah dan monopoli dagang","Pendidikan massa","Pemerintahan modern","Pertanian besar"], a:"Perdagangan rempah dan monopoli dagang" },
       { q:"Setelah bubarnya VOC (1799), pemerintahan digantikan oleh…", opts:["Pemerintahan Hindia Belanda di bawah pusat Belanda","VOC tetap berlanjut","Kerajaan Nusantara","Pemerintahan Jepang"], a:"Pemerintahan Hindia Belanda di bawah pusat Belanda" },
-se
       { q:"Perjanjian Giyanti (1755) mengakibatkan…", opts:["Pembagian Mataram menjadi Yogyakarta & Surakarta","Persatuan Jawa","Akhir VOC","Kemerdekaan Indonesia"], a:"Pembagian Mataram menjadi Yogyakarta & Surakarta" },
       { q:"Apa latar belakang Indische Partij (1912)?", opts:["Kaum intelektual pro-kemerdekaan di perantauan Belanda","Pengembangan perdagangan","Organisasi militer","Sekolah baru"], a:"Kaum intelektual pro-kemerdekaan di perantauan Belanda" },
       { q:"Rengasdengklok terkait dengan…", opts:["Upaya memindahkan Soekarno-Hatta agar proklamasi segera dilaksanakan","Perjanjian dagang","Kongres pemuda","Pertempuran besar"], a:"Upaya memindahkan Soekarno-Hatta agar proklamasi segera dilaksanakan" },
@@ -323,7 +319,6 @@ se
       { q:"Hasil utama KMB 1949 adalah…", opts:["Belanda mengakui kedaulatan RI secara de jure","Pembentukan negara baru di Papua","Perjanjian militer","Perdagangan bebas"], a:"Belanda mengakui kedaulatan RI secara de jure" },
       { q:"Siapa tokoh pejuang Aceh akhir 1800-an?", opts:["Teuku Umar & Cut Nyak Dien","Pattimura","Diponegoro","Sultan Hasanuddin"], a:"Teuku Umar & Cut Nyak Dien" },
       { q:"Apa tujuan politik luar negeri non-blok Indonesia?", opts:["Menjaga kemerdekaan dari dua blok besar","Bergabung NATO","Menjadi satelit negara","Eksklusif dagang"], a:"Menjaga kemerdekaan dari dua blok besar" },
-s
       { q:"Apa itu Perjanjian Renville (1948)?", opts:["Perjanjian yang menetapkan garis demarkasi dan syarat gencatan senjata","Perjanjian perdagangan","Perjanjian maritim","Perjanjian pendidikan"], a:"Perjanjian yang menetapkan garis demarkasi dan syarat gencatan senjata" },
       { q:"Penyebab DI/TII pada 1950-an salah satunya adalah…", opts:["Ketidakpuasan terhadap sentralisasi & ideologi","Masalah cuaca","Invasi asing","Krisis ekonomi global"], a:"Ketidakpuasan terhadap sentralisasi & ideologi" },
       { q:"Siapa tokoh PRRI/Permesta pada 1958 secara garis besar?", opts:["Tokoh militer & politik daerah menentang pusat","Soekarno","Soeharto","Hatta"], a:"Tokoh militer & politik daerah menentang pusat" },
@@ -335,7 +330,6 @@ s
       { q:"Fungsi BPUPKI tahun 1945 adalah…", opts:["Membahas dasar negara & UUD menjelang kemerdekaan","Mengatur perdagangan","Mendirikan sekolah","Menjaga ketertiban"], a:"Membahas dasar negara & UUD menjelang kemerdekaan" },
       { q:"Siapa yang mengusulkan Pancasila dalam pidato 1 Juni 1945?", opts:["Soekarno","Hatta","Soepomo","Sutan Sjahrir"], a:"Soekarno" },
       { q:"Siapa pemimpin yang terkenal dari Bali (perjuangan kemerdekaan modern)?", opts:["I Gusti Ngurah Rai","Pattimura","Cut Nyak Dien","Sam Ratulangi"], a:"I Gusti Ngurah Rai" },
-IA
       { q:"Apa arti Nasionalisme dalam konteks pergerakan awal?", opts:["Kesadaran bersama merdeka dari penjajahan","Dominasi asing","Kolonialisasi internal","Ekspansi wilayah"], a:"Kesadaran bersama merdeka dari penjajahan" },
       { q:"Siapa pemimpin penting dalam Serangan Umum 1 Maret 1949?", opts:["Sudirman & pejuang lokal","Soekarno","Hatta","Soeharto"], a:"Sudirman & pejuang lokal" },
       { q:"Apa arti 'Agresi Militer Belanda' 1947/1948?", opts:["Operasi militer Belanda melawan RI pasca-proklamasi","Perang dunia","Invasi Jepang","Perang sipil"], a:"Operasi militer Belanda melawan RI pasca-proklamasi" },
@@ -427,7 +421,6 @@ IA
         for(let i=pool.length-1;i>0;i--){
           const j = Math.floor(Math.random()*(i+1));
           [pool[i], pool[j]] = [pool[j], pool[i]];
-ci
         }
       }
       return pool.slice(0, Math.min(QUESTIONS_COUNT, pool.length));
@@ -465,10 +458,8 @@ ci
         if(timeLeft <= 0){
           clearInterval(timer);
           Array.from(optionsDiv.children).forEach(c => c.style.pointerEvents = 'none');
-A
           const q = questions[current];
           Array.from(optionsDiv.children).forEach(c => { if(c.textContent === q.a) c.classList.add('correct'); });
-content
           showNotif('timeout','⏰ Waktu Habis!');
           setTimeout(()=> nextQuestion(), 900);
         }
@@ -487,7 +478,7 @@ content
       }
       opts.forEach(opt=>{
         const el = document.createElement('div');
-el.className = 'opt';
+        el.className = 'opt';
         el.textContent = opt;
         el.onclick = ()=> handleAnswerClick(el, opt);
         optionsDiv.appendChild(el);
@@ -498,7 +489,6 @@ el.className = 'opt';
       clearInterval(timer);
       const q = questions[current];
       Array.from(optionsDiv.children).forEach(c => c.style.pointerEvents = 'none');
-i
       if(selected === q.a){
         score += 5;
         el.classList.add('correct');
@@ -506,7 +496,6 @@ i
       } else {
         el.classList.add('wrong');
         Array.from(optionsDiv.children).forEach(c => { if(c.textContent === q.a) c.classList.add('correct'); });
-Note
         showNotif('wrong','❌ Salah!');
       }
       setTimeout(()=> nextQuestion(), 900);
@@ -524,7 +513,6 @@ Note
 
     function endQuiz(){
       clearInterval(timer);
-A
       quizScreen.style.display = 'none';
       resultScreen.style.display = 'block';
       resultText.textContent = `🎊 ${player}, skor kamu: ${score} dari ${questions.length*5} poin.`;
@@ -532,7 +520,6 @@ A
       try{
         const hist = JSON.parse(localStorage.getItem('quizHistory')||'[]');
         hist.push({ name: player, score, max: questions.length*5, percent: Math.round((score/(questions.length*5))*100), date: (new Date()).toISOString() });
-m
         localStorage.setItem('quizHistory', JSON.stringify(hist.slice(-100)));
       }catch(e){}
     }
@@ -544,7 +531,6 @@ m
       if(nilai >= 85) grade = 'Sangat Baik';
       else if(nilai >= 70) grade = 'Baik';
       else if(nilai >= 50) grade = 'Cukup';
-custom
       else grade = 'Perlu Latihan';
       scoreDetail.style.display = 'block';
       scoreDetail.textContent = `Nilai: ${nilai.toFixed(0)} | Kategori: ${grade}`;
@@ -552,10 +538,8 @@ custom
 
     function showAllQuestions(){
       const lines = allQuestions.map((s,i)=> `${i+1}. ${s.q} — Jawab: ${s.a}`).join('\n\n');
-auto
       const w = window.open();
       w.document.write('<pre style="font-family:Georgia,serif;font-size:15px;white-space:pre-wrap;color:#fff;background:#111;padding:16px;">' + escapeHtml(lines) + '</pre>');
-public
       w.document.title = 'Daftar Soal';
     }
 
@@ -571,10 +555,8 @@ public
 
     playerInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') startQuiz(); });
 
-S
     // quick safety: log how many unique questions we have
     console.log("Total soal di bank:", allQuestions.length);
   </script>
 </body>
 </html>
-```
