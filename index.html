@@ -5,18 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Kuis Sejarah Indonesia - Tema Sejarah</title>
   <style>
-    /* ---------- Theme: Sejarah / Klasik (perkamen) ---------- */
+    /* ---------- Theme: Sejarah / Klasik (perkamen) but high-contrast text ---------- */
     :root{
-      --paper-1: #f4ead6;
-      --paper-2: #efe3c9;
-      --ink: #2b2b23;
-      --muted:#6b5e4a;
-      --accent:#8b5e34; /* bronze */
-      --accent-2:#6c4b2a;
-      --success:#2e7d32;
-      --danger:#a12b2b;
-      --glass: rgba(255,255,255,0.02);
-      --card-shadow: rgba(27,19,11,0.45);
+      --paper-1: #2b210f; /* darkened paper to keep vintage feel but high contrast */
+      --paper-2: #251b0c;
+      --ink: #ffffff;             /* changed to white for readability */
+      --muted: rgba(255,255,255,0.75);
+      --accent:#c79a5a; /* bronze-ish accent */
+      --accent-2:#b07a42;
+      --success:#2ecc71;
+      --danger:#ff6b6b;
+      --warning:#f1c40f;
+      --card-shadow: rgba(0,0,0,0.75);
+      --line: rgba(255,255,255,0.12);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -36,56 +37,52 @@
 
     .app { width:100%; max-width:920px; padding:18px; }
 
-    /* old paper card with ornamental border */
+    /* card */
     .card{
       position:relative;
       background: linear-gradient(180deg, var(--paper-1), var(--paper-2));
       border-radius:12px;
       padding:26px;
-      box-shadow: 0 20px 50px var(--card-shadow);
-      border:6px solid rgba(107,94,74,0.08);
+      box-shadow: 0 20px 60px var(--card-shadow);
+      border:6px solid rgba(255,255,255,0.04);
       overflow:visible;
       background-image:
-        linear-gradient(transparent, rgba(0,0,0,0.01)),
+        linear-gradient(transparent, rgba(255,255,255,0.01)),
         repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0 1px, transparent 1px 40px);
     }
 
-    /* decorative header */
+    /* header */
     .header{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
       margin-bottom:12px;
-      border-bottom:1px dashed rgba(107,94,74,0.15);
+      border-bottom:1px dashed var(--line);
       padding-bottom:12px;
     }
-    .brand {
-      display:flex;
-      gap:14px;
-      align-items:center;
-    }
+    .brand { display:flex; gap:14px; align-items:center; }
     .seal{
       width:56px; height:56px;
       border-radius:50%;
-      background:radial-gradient(circle at 30% 30%, rgba(139,94,52,0.15), transparent 20%),
-                 linear-gradient(180deg,#8b5e34,#6c4b2a);
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 20%),
+                 linear-gradient(180deg,var(--accent),var(--accent-2));
       display:flex; align-items:center; justify-content:center;
       color: #fff; font-weight:800; font-family: "Georgia", serif;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.4), inset 0 -4px 10px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5), inset 0 -4px 10px rgba(0,0,0,0.25);
     }
     h1{ margin:0; font-size:20px; color:var(--ink); letter-spacing:0.2px }
     .meta{ color:var(--muted); font-size:13px }
 
-    /* start area */
+    /* start */
     .start-center{ text-align:center; padding:8px 6px }
     input[name="player"]{
       width:70%;
       max-width:420px;
       padding:10px 12px;
       border-radius:8px;
-      border:1px solid rgba(107,94,74,0.16);
-      background:transparent;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,0.03);
       color:var(--ink);
       outline:none;
       font-size:15px;
@@ -98,39 +95,37 @@
       display:inline-block;
       padding:10px 16px;
       border-radius:10px;
-      border:2px solid rgba(107,94,74,0.12);
-      background: linear-gradient(180deg, #e8d9b6, #e1cfa0);
+      border:2px solid rgba(255,255,255,0.06);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
       color:var(--ink);
       font-weight:700;
       cursor:pointer;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
       transition: transform .12s ease, box-shadow .12s ease;
       font-family:inherit;
     }
-    .btn:hover{ transform:translateY(-3px); box-shadow: 0 14px 30px rgba(0,0,0,0.18) }
-    .btn.ghost{
-      background:transparent;
-      color:var(--muted);
-    }
+    .btn:hover{ transform:translateY(-3px); box-shadow: 0 14px 30px rgba(0,0,0,0.45) }
+    .btn.ghost{ background:transparent; color:var(--muted); border-color:var(--line) }
     .btn.primary{
-      background: linear-gradient(180deg,#d9b07a,#c99552);
+      background: linear-gradient(180deg,var(--accent),var(--accent-2));
       color:#fff;
       border-color: rgba(0,0,0,0.08);
     }
 
-    /* quiz area */
+    /* quiz */
     #quizScreen { display:none; margin-top:14px; }
     .top-row{
       display:flex; align-items:center; justify-content:space-between;
       gap:12px; padding-bottom:12px; margin-bottom:12px;
+      border-bottom:1px dashed var(--line);
     }
     .timer{
-      color:var(--accent-2);
+      color:var(--ink);
       font-weight:800;
-      background: linear-gradient(180deg, rgba(108,75,42,0.06), transparent);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
       padding:8px 10px;
       border-radius:8px;
-      border:1px solid rgba(107,94,74,0.08);
+      border:1px solid var(--line);
     }
     .progress{ color:var(--muted); font-size:13px }
 
@@ -139,19 +134,19 @@
       font-weight:800;
       margin:12px 0;
       color:var(--ink);
-      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+      text-shadow: 0 1px 0 rgba(0,0,0,0.6);
     }
 
     .options{ display:flex; flex-direction:column; gap:12px; margin-top:6px }
 
     .opt{
-      background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.35));
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border-radius:10px;
       padding:14px 16px;
       cursor:pointer;
       color:var(--ink);
       font-weight:700;
-      border:1px solid rgba(107,94,74,0.12);
+      border:1px solid var(--line);
       transition: transform .12s ease, box-shadow .12s ease, border-color .12s;
       position:relative;
       overflow:hidden;
@@ -159,38 +154,38 @@
     }
     .opt:hover{
       transform: translateY(-6px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.12);
-      border-color: rgba(107,94,74,0.28);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      border-color: rgba(255,255,255,0.22);
     }
     .opt.correct{
-      border-color: rgba(46,125,50,0.28);
-      box-shadow: 0 10px 30px rgba(46,125,50,0.06);
-      background: linear-gradient(180deg, rgba(46,125,50,0.06), rgba(255,255,255,0.45));
+      border-color: rgba(46,204,113,0.32);
+      box-shadow: 0 10px 30px rgba(46,204,113,0.06);
+      background: linear-gradient(180deg, rgba(46,204,113,0.04), rgba(255,255,255,0.02));
     }
     .opt.wrong{
-      border-color: rgba(161,43,43,0.28);
-      box-shadow: 0 10px 30px rgba(161,43,43,0.06);
-      background: linear-gradient(180deg, rgba(161,43,43,0.06), rgba(255,255,255,0.45));
+      border-color: rgba(255,107,107,0.32);
+      box-shadow: 0 10px 30px rgba(255,107,107,0.06);
+      background: linear-gradient(180deg, rgba(255,107,107,0.03), rgba(255,255,255,0.01));
     }
 
-    /* stamp styles for notif */
+    /* notif / stamp */
     .stamp{
       display:inline-block;
       font-weight:900;
       padding:8px 12px;
       border-radius:6px;
       font-family: "Georgia", serif;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
     }
-    .stamp.correct{ background: rgba(46,125,50,0.12); color:var(--success); border:1px solid rgba(46,125,50,0.18) }
-    .stamp.wrong{ background: rgba(161,43,43,0.08); color:var(--danger); border:1px solid rgba(161,43,43,0.12) }
+    .stamp.correct{ background: rgba(46,204,113,0.12); color:var(--success); border:1px solid rgba(46,204,113,0.18) }
+    .stamp.wrong{ background: rgba(255,107,107,0.08); color:var(--danger); border:1px solid rgba(255,107,107,0.12) }
     .stamp.timeout{ background: rgba(255,165,0,0.08); color:var(--warning); border:1px solid rgba(255,165,0,0.12) }
 
     #resultScreen{ display:none; text-align:center; margin-top:12px }
     .result-score{ font-size:20px; font-weight:800; color:var(--ink) }
     .small{ font-size:13px; color:var(--muted) }
 
-    .footer{ margin-top:18px; border-top:1px dashed rgba(107,94,74,0.12); padding-top:12px; display:flex; justify-content:space-between; color:var(--muted); font-size:13px }
+    .footer{ margin-top:18px; border-top:1px dashed var(--line); padding-top:12px; display:flex; justify-content:space-between; color:var(--muted); font-size:13px }
 
     @media (max-width:780px){
       .app{ padding:12px }
@@ -207,7 +202,7 @@
           <div class="seal">KS</div>
           <div>
             <h1>Kuis Sejarah Indonesia</h1>
-            <div class="meta small">ada 20 soal</div>
+            <div class="meta small">ada 20 soal </div>
           </div>
         </div>
         <div class="meta small">oleh: Kamu</div>
@@ -219,7 +214,6 @@
         <input name="player" id="playerName" placeholder="Nama kamu..." autocomplete="off" />
         <div class="controls">
           <button id="startBtn" class="btn primary" onclick="startQuiz()">🚀 Mulai Kuis</button>
-          <button class="btn ghost" onclick="showAllQuestions()">📚 Lihat Semua Soal</button>
           <button class="btn" onclick="toggleSettings()">⚙️ Pengaturan</button>
         </div>
 
@@ -349,7 +343,6 @@
 
     /* ---------- Sanitasi & deduplikasi ---------- */
     function normalizeQuestions(raw){
-      // dedupe by question text, keep first occurrence
       const seen = new Set();
       const list = [];
       for(const item of raw){
@@ -357,30 +350,20 @@
         if(!qtext) continue;
         if(seen.has(qtext)) continue;
         seen.add(qtext);
-        // sanitize options: unique & ensure correct present
         let opts = Array.isArray(item.opts) ? item.opts.map(s=>String(s).trim()) : [];
-        // keep order but dedupe
         const oseen = new Set();
         const uniq = [];
         for(const o of opts){ if(!oseen.has(o)){ uniq.push(o); oseen.add(o); } }
-        // ensure answer present
         const answer = String(item.a || "").trim();
-        if(answer && !oseen.has(answer)){
-          uniq.push(answer);
-          oseen.add(answer);
-        }
-        // if fewer than 4, add filler distractors (generic)
+        if(answer && !oseen.has(answer)){ uniq.push(answer); oseen.add(answer); }
         const fillers = ["Tidak Tahu","Tidak Benar","Pilihan Lain","Peristiwa Lain"];
         let fi = 0;
         while(uniq.length < 4 && fi < fillers.length){
-          const f = fillers[fi++] + (uniq.length); // small variation
+          const f = fillers[fi++] + (uniq.length);
           if(!oseen.has(f)){ uniq.push(f); oseen.add(f); }
         }
-        // final: if more than 4, slice to 4 but keep answer included
         if(uniq.length > 4){
-          // ensure answer kept: move answer to first 4 if necessary
           if(!uniq.slice(0,4).includes(answer)){
-            // put answer into index 0 and shift others down
             uniq = [answer].concat(uniq.filter(x=>x!==answer)).slice(0,4);
           } else {
             uniq = uniq.slice(0,4);
@@ -392,7 +375,6 @@
     }
 
     const allQuestions = normalizeQuestions(rawQuestions);
-    // If total < 100, we can reuse with slight variants; but we already have ~100-like; keep as-is.
 
     /* ---------- Settings & State ---------- */
     let QUESTIONS_COUNT = 20;
@@ -436,7 +418,6 @@
 
     /* ---------- pick random unique questions ---------- */
     function pickRandomQuestions(){
-      // option to shuffle pool or not (checkbox)
       const shufflePool = document.getElementById('shufflePool') ? document.getElementById('shufflePool').checked : true;
       let pool = allQuestions.slice();
       if(shufflePool){
@@ -445,7 +426,6 @@
           [pool[i], pool[j]] = [pool[j], pool[i]];
         }
       }
-      // slice requested number but ensure we don't exceed pool length
       return pool.slice(0, Math.min(QUESTIONS_COUNT, pool.length));
     }
 
@@ -461,7 +441,6 @@
       questions = pickRandomQuestions();
       current = 0;
       score = 0;
-      // UI switch
       startScreen.style.display = 'none';
       resultScreen.style.display = 'none';
       quizScreen.style.display = 'block';
@@ -473,7 +452,6 @@
     }
 
     function startTimer(){
-      // reset timer display per question
       timeLeft = parseInt(15,10);
       timerEl.textContent = `⏳ Waktu: ${timeLeft}s`;
       clearInterval(timer);
@@ -482,9 +460,7 @@
         timerEl.textContent = `⏳ Waktu: ${timeLeft}s`;
         if(timeLeft <= 0){
           clearInterval(timer);
-          // disable options
           Array.from(optionsDiv.children).forEach(c => c.style.pointerEvents = 'none');
-          // reveal correct
           const q = questions[current];
           Array.from(optionsDiv.children).forEach(c => { if(c.textContent === q.a) c.classList.add('correct'); });
           showNotif('timeout','⏰ Waktu Habis!');
@@ -498,7 +474,6 @@
       progressEl.textContent = `Soal ${current+1} / ${questions.length}`;
       questionText.textContent = `❓ ${q.q}`;
       optionsDiv.innerHTML = '';
-      // shuffle options copy
       const opts = q.opts.slice();
       for(let i=opts.length-1;i>0;i--){
         const j = Math.floor(Math.random()*(i+1));
@@ -516,7 +491,6 @@
     function handleAnswerClick(el, selected){
       clearInterval(timer);
       const q = questions[current];
-      // disable clicks
       Array.from(optionsDiv.children).forEach(c => c.style.pointerEvents = 'none');
       if(selected === q.a){
         score += 5;
@@ -546,7 +520,6 @@
       resultScreen.style.display = 'block';
       resultText.textContent = `🎊 ${player}, skor kamu: ${score} dari ${questions.length*5} poin.`;
       scoreDetail.style.display = 'none';
-      // save history
       try{
         const hist = JSON.parse(localStorage.getItem('quizHistory')||'[]');
         hist.push({ name: player, score, max: questions.length*5, percent: Math.round((score/(questions.length*5))*100), date: (new Date()).toISOString() });
@@ -566,12 +539,10 @@
       scoreDetail.textContent = `Nilai: ${nilai.toFixed(0)} | Kategori: ${grade}`;
     }
 
-    // helper to view all questions (simple modal-like)
     function showAllQuestions(){
       const lines = allQuestions.map((s,i)=> `${i+1}. ${s.q} — Jawab: ${s.a}`).join('\n\n');
-      // open in new window for convenience
       const w = window.open();
-      w.document.write('<pre style="font-family:Georgia,serif;font-size:15px;white-space:pre-wrap;">' + escapeHtml(lines) + '</pre>');
+      w.document.write('<pre style="font-family:Georgia,serif;font-size:15px;white-space:pre-wrap;color:#fff;background:#111;padding:16px;">' + escapeHtml(lines) + '</pre>');
       w.document.title = 'Daftar Soal';
     }
 
@@ -585,9 +556,11 @@
     window.showAllQuestions = showAllQuestions;
     window.toggleSettings = toggleSettings;
 
-    // quick-enter
     playerInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') startQuiz(); });
 
+    // quick safety: log how many unique questions we have
+    console.log("Total soal di bank:", allQuestions.length);
   </script>
 </body>
 </html>
+
